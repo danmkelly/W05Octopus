@@ -14,6 +14,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Octopus v3: Determinism You Can Watch">
 <meta name="twitter:description" content="Orchestration is now executed code, not improvised prose.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%99%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,13 +40,6 @@
 }
 </script>
 
-<!-- GSAP + ScrollTrigger UMD globals -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
-<!-- Lenis smooth scroll UMD -->
-<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-
 <style>
 /* ====================================================
    RESET
@@ -58,17 +52,17 @@ html { scroll-behavior: smooth; }
    ==================================================== */
 :root {
   color-scheme: dark;
-  /* Substrate */
-  --base:        #06070b;
-  --surface:     #09101a;
-  --surface-alt: #0c1320;
-  --card:        #101828;
-  --card-hov:    #141e32;
-  --code-bg:     #07090f;
+  /* Substrate: slightly lifted vs v3.0 for airier feel */
+  --base:        #070a10;
+  --surface:     #0b1220;
+  --surface-alt: #0e1628;
+  --card:        #111b2c;
+  --card-hov:    #162133;
+  --code-bg:     #080c16;
   /* Indigo structural */
-  --border:      rgba(40,60,160,0.15);
-  --border-str:  rgba(40,60,160,0.30);
-  --border-glow: rgba(40,60,160,0.55);
+  --border:      rgba(40,60,160,0.14);
+  --border-str:  rgba(40,60,160,0.28);
+  --border-glow: rgba(40,60,160,0.50);
   /* Amber / gold: the gate accent, reserved */
   --gold:        #c8933a;
   --gold-bright: #e8b44a;
@@ -105,14 +99,14 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* CSS ambient grid (fallback + complement to GLSL) */
+/* CSS ambient grid */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(40,60,200,0.038) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(40,60,200,0.038) 1px, transparent 1px);
+    linear-gradient(rgba(40,60,200,0.030) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(40,60,200,0.030) 1px, transparent 1px);
   background-size: 48px 48px;
   pointer-events: none;
   z-index: 0;
@@ -159,7 +153,7 @@ nav {
   top: 0;
   z-index: 200;
   height: var(--nav-h);
-  background: rgba(6,7,11,0.82);
+  background: rgba(7,10,16,0.80);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--border);
@@ -176,26 +170,17 @@ nav {
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 10px;
   text-decoration: none;
   flex-shrink: 0;
-}
-.nav-nodes {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-}
-.nav-node {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  opacity: 0.9;
 }
 .nav-wordmark {
   font-family: 'Clash Display', Georgia, serif;
   font-weight: 600;
-  font-size: 15px;
-  letter-spacing: 3px;
+  font-size: 14px;
+  letter-spacing: 4px;
   color: var(--ink);
+  text-transform: uppercase;
 }
 .nav-ver {
   font-family: 'JetBrains Mono', monospace;
@@ -203,10 +188,11 @@ nav {
   color: var(--gold);
   font-weight: 500;
   letter-spacing: 1px;
+  opacity: 0.8;
 }
 .nav-links {
   display: flex;
-  gap: 22px;
+  gap: 24px;
   flex: 1;
 }
 .nav-links a {
@@ -216,6 +202,7 @@ nav {
   text-decoration: none;
   transition: color 0.18s;
   white-space: nowrap;
+  letter-spacing: 0.01em;
 }
 .nav-links a:hover { color: var(--ink); }
 .nav-links a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
@@ -225,8 +212,8 @@ nav {
   gap: 7px;
   padding: 7px 16px;
   background: var(--gold-soft);
-  border: 1px solid rgba(200,147,58,0.35);
-  border-radius: 6px;
+  border: 1px solid rgba(200,147,58,0.32);
+  border-radius: 20px;
   font-family: 'Switzer', sans-serif;
   font-size: 13px;
   font-weight: 500;
@@ -235,7 +222,7 @@ nav {
   flex-shrink: 0;
   transition: background 0.18s, border-color 0.18s;
 }
-.nav-github:hover { background: rgba(200,147,58,0.28); border-color: var(--gold); }
+.nav-github:hover { background: rgba(200,147,58,0.26); border-color: var(--gold); }
 .nav-github:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 @media (max-width: 720px) { .nav-links { display: none; } }
 @media (max-width: 440px) { .nav-ver { display: none; } }
@@ -250,7 +237,7 @@ nav {
   position: relative;
   z-index: 1;
 }
-.section { padding: 96px 0; }
+.section { padding: 112px 0; }
 .section-alt { background: var(--surface); }
 section[id] { scroll-margin-top: calc(var(--nav-h) + 12px); }
 
@@ -302,6 +289,11 @@ h2 {
   align-items: center;
   justify-content: flex-end;
   overflow: hidden;
+  /* CSS gradient background replaces full-screen GLSL shader */
+  background:
+    radial-gradient(ellipse 100% 60% at 50% 0%, rgba(30,55,160,0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(40,20,120,0.06) 0%, transparent 60%),
+    var(--base);
 }
 
 /* Three.js canvas: fills the hero, behind text */
@@ -312,7 +304,7 @@ h2 {
   height: 100%;
   z-index: 0;
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.8s ease;
 }
 #hero-canvas.visible { opacity: 1; }
 
@@ -336,9 +328,9 @@ h2 {
   height: 60%;
   background: linear-gradient(to bottom,
     transparent 0%,
-    rgba(6,7,11,0.5) 40%,
-    rgba(6,7,11,0.92) 75%,
-    #06070b 100%);
+    rgba(7,10,16,0.45) 40%,
+    rgba(7,10,16,0.90) 75%,
+    #070a10 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -347,7 +339,7 @@ h2 {
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 0 28px 72px;
+  padding: 0 28px 80px;
   width: 100%;
   max-width: var(--max-w);
 }
@@ -447,13 +439,38 @@ h2 {
   letter-spacing: 0.5px;
 }
 
-/* Motion-enabled: hero text starts hidden so GSAP kinetic entrance can animate in.
-   Without js-motion (reduced motion or no JS), all hero text is visible by default. */
-html.js-motion .hero-eyebrow,
-html.js-motion .hero-sub,
-html.js-motion .hero-ctas,
-html.js-motion .hero-note { opacity: 0; }
-html.js-motion .h1-line-inner { opacity: 0; transform: translateY(80px); }
+/* Hero entrance: CSS transitions (no GSAP required).
+   js-motion class hides elements; adding .anim-in triggers reveal. */
+html.js-motion .hero-eyebrow {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+html.js-motion .hero-eyebrow.anim-in { opacity: 1; }
+
+html.js-motion .h1-line-inner {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+html.js-motion .h1-line-inner.anim-in { opacity: 1; transform: none; }
+
+html.js-motion .hero-sub {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+html.js-motion .hero-sub.anim-in { opacity: 1; }
+
+html.js-motion .hero-ctas {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+html.js-motion .hero-ctas.anim-in { opacity: 1; }
+
+html.js-motion .hero-note {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+html.js-motion .hero-note.anim-in { opacity: 1; }
 
 /* ====================================================
    HERO FALLBACK SVG PIPELINE
@@ -572,16 +589,13 @@ html.js-motion .h1-line-inner { opacity: 0; transform: translateY(80px); }
 @keyframes fpgl { 0%{fill:rgba(168,107,255,0.9)} 41%{fill:rgba(168,107,255,0.9)} 42.5%{fill:var(--gold-bright)} 50%{fill:var(--green)} 60%{fill:rgba(168,107,255,0.9)} 100%{fill:rgba(168,107,255,0.9)} }
 
 /* ====================================================
-   SECTION REVEAL
+   SECTION REVEAL via IntersectionObserver
    Progressive enhancement: visible by default.
-   Only hidden when js-motion class is present (motion allowed + JS ran).
+   Hidden only when js-motion class is present.
    ==================================================== */
-.reveal {
-  /* fully visible: no JS, no motion, CDN failure = content always readable */
-}
 html.js-motion .reveal {
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateY(36px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 html.js-motion .reveal.revealed {
@@ -596,13 +610,13 @@ html.js-motion .reveal.revealed {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
-  margin-top: 44px;
+  margin-top: 48px;
 }
 .agent-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--r);
-  padding: 24px 22px 22px;
+  padding: 26px 24px 24px;
   border-left: 3px solid transparent;
   transition: border-color 0.2s, background 0.2s, transform 0.2s;
   position: relative;
@@ -651,10 +665,10 @@ html.js-motion .reveal.revealed {
   line-height: 1.5;
 }
 .cost-callout {
-  margin-top: 36px;
-  padding: 20px 24px;
-  background: rgba(200,147,58,0.06);
-  border: 1px solid rgba(200,147,58,0.2);
+  margin-top: 40px;
+  padding: 22px 26px;
+  background: rgba(200,147,58,0.05);
+  border: 1px solid rgba(200,147,58,0.18);
   border-radius: var(--r);
   font-family: 'Switzer', sans-serif;
   font-size: 14px;
@@ -667,7 +681,7 @@ html.js-motion .reveal.revealed {
    CODE SECTION
    ==================================================== */
 .code-wrap {
-  margin-top: 44px;
+  margin-top: 48px;
   border-radius: var(--r);
   border: 1px solid var(--border);
   overflow: hidden;
@@ -698,7 +712,7 @@ html.js-motion .reveal.revealed {
 }
 pre.code {
   background: var(--code-bg);
-  padding: 26px 30px;
+  padding: 28px 30px;
   overflow-x: auto;
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
@@ -718,7 +732,7 @@ pre.code code { background: none; padding: 0; font-size: inherit; }
 .t-gr  { color: var(--green); }
 .t-pu  { color: rgba(168,107,255,0.85); }
 .code-caption {
-  margin-top: 18px;
+  margin-top: 20px;
   font-family: 'Switzer', sans-serif;
   font-size: 14px;
   color: var(--ink-3);
@@ -749,14 +763,14 @@ pre.code code { background: none; padding: 0; font-size: inherit; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
-  margin-top: 44px;
+  margin-top: 48px;
 }
 @media (max-width: 680px) { .vg-grid { grid-template-columns: 1fr; } }
 .vg-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--r);
-  padding: 30px 28px;
+  padding: 32px 28px;
   transition: border-color 0.2s, transform 0.2s;
 }
 .vg-card:hover { border-color: var(--border-str); transform: translateY(-2px); }
@@ -798,7 +812,7 @@ pre.code code { background: none; padding: 0; font-size: inherit; }
   font-size: 13.5px;
   color: var(--ink-2);
   line-height: 1.62;
-  padding: 7px 0;
+  padding: 8px 0;
   border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 .vg-list li:last-child { border-bottom: none; }
@@ -811,13 +825,13 @@ pre.code code { background: none; padding: 0; font-size: inherit; }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 20px;
-  margin-top: 44px;
+  margin-top: 48px;
 }
 .safety-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--r);
-  padding: 24px 22px;
+  padding: 26px 24px;
   transition: border-color 0.2s, transform 0.2s;
 }
 .safety-card:hover { border-color: var(--border-str); transform: translateY(-2px); }
@@ -852,7 +866,7 @@ pre.code code { background: none; padding: 0; font-size: inherit; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 28px;
-  margin-top: 44px;
+  margin-top: 48px;
   align-items: start;
 }
 @media (max-width: 680px) { .start-grid { grid-template-columns: 1fr; } }
@@ -910,9 +924,9 @@ pre.start-code {
   margin-bottom: 10px;
 }
 .start-callout {
-  margin-top: 36px;
-  padding: 22px 26px;
-  background: rgba(40,60,160,0.06);
+  margin-top: 40px;
+  padding: 24px 28px;
+  background: rgba(40,60,160,0.05);
   border: 1px solid var(--border);
   border-radius: var(--r);
 }
@@ -929,7 +943,7 @@ pre.start-code {
    ==================================================== */
 footer {
   border-top: 1px solid var(--border);
-  padding: 40px 0;
+  padding: 48px 0;
 }
 .footer-inner {
   max-width: var(--max-w);
@@ -964,7 +978,7 @@ footer {
    RESPONSIVE
    ==================================================== */
 @media (max-width: 680px) {
-  .section { padding: 64px 0; }
+  .section { padding: 80px 0; }
   .hero-section { min-height: 100svh; }
   .agents-grid { grid-template-columns: 1fr 1fr; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
@@ -981,7 +995,7 @@ footer {
   #progress { transition: none !important; }
   .reveal { transition: none !important; opacity: 1 !important; transform: none !important; }
   .h1-line-inner { opacity: 1 !important; transform: none !important; }
-  .hero-eyebrow, .hero-sub, .hero-ctas, .hero-note { opacity: 1 !important; }
+  .hero-eyebrow, .hero-sub, .hero-ctas, .hero-note { opacity: 1 !important; transition: none !important; }
   #hero-canvas { display: none !important; }
   .hero-fallback { opacity: 1 !important; }
   .fp-pulse-rd, .fp-pulse-db, .fp-pulse-bv, .fp-pulse-vg, .fp-pulse-gm { animation: none !important; opacity: 0; }
@@ -1008,14 +1022,7 @@ footer {
 <nav aria-label="Main navigation">
   <div class="nav-inner">
     <a href="#" class="nav-brand" aria-label="Octopus v3 home">
-      <span class="nav-nodes" aria-hidden="true">
-        <span class="nav-node" style="background:var(--yellow)"></span>
-        <span class="nav-node" style="background:var(--orange)"></span>
-        <span class="nav-node" style="background:var(--blue)"></span>
-        <span class="nav-node" style="background:var(--green)"></span>
-        <span class="nav-node" style="background:var(--purple)"></span>
-      </span>
-      <span class="nav-wordmark">OCTOPUS</span>
+      <span class="nav-wordmark">Octopus</span>
       <span class="nav-ver">v3</span>
     </a>
     <nav class="nav-links" aria-label="Page sections">
@@ -1037,7 +1044,7 @@ footer {
 <!-- ===== HERO ============================================ -->
 <section class="hero-section" aria-label="Hero: Octopus v3 orchestration core">
 
-  <!-- Three.js canvas: the 3D orchestration core -->
+  <!-- Three.js canvas: the 3D constellation -->
   <canvas id="hero-canvas" aria-hidden="true"></canvas>
 
   <!-- CSS fallback: animated SVG pipeline (shows until WebGL is confirmed or if unavailable) -->
@@ -1401,7 +1408,7 @@ footer {
 
 <!-- ===================================================
      MAIN MODULE SCRIPT
-     Three.js + GSAP ScrollTrigger + Lenis
+     Three.js constellation (no GSAP, no ScrollTrigger, no Lenis)
      ==================================================== -->
 <script type="module">
 import * as THREE from 'three';
@@ -1423,7 +1430,7 @@ document.querySelectorAll('a[href*="github.com/victordelrosal/octopus"]').forEac
 });
 
 /* ======================================================
-   READING PROGRESS
+   READING PROGRESS (native scroll only)
    ====================================================== */
 const progressBar = document.getElementById('progress');
 function updateProgress() {
@@ -1441,72 +1448,28 @@ updateProgress();
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ======================================================
-   LENIS SMOOTH SCROLL
-   ====================================================== */
-let lenis = null;
-if (!reduceMotion && typeof Lenis !== 'undefined') {
-  try {
-    lenis = new Lenis({ duration: 1.2 });
-    lenis.on('scroll', () => {
-      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.update();
-    });
-    const lenisTickFn = (time) => { lenis.raf(time * 1000); };
-    if (typeof gsap !== 'undefined') {
-      gsap.ticker.add(lenisTickFn);
-      gsap.ticker.lagSmoothing(0);
-    } else {
-      function lenisRaf(t) { lenis.raf(t); requestAnimationFrame(lenisRaf); }
-      requestAnimationFrame(lenisRaf);
-    }
-  } catch(e) {
-    lenis = null;
-  }
-}
-
-/* ======================================================
-   GSAP SCROLLTRIGGER REGISTER
-   ====================================================== */
-if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-/* ======================================================
-   SECTION REVEAL (GSAP ScrollTrigger)
+   SECTION REVEAL via IntersectionObserver
+   No GSAP or ScrollTrigger; pure CSS transitions triggered by class.
    ====================================================== */
 function setupReveal() {
-  if (typeof gsap === 'undefined') {
-    document.querySelectorAll('.reveal').forEach(el => {
-      el.classList.add('revealed');
-    });
-    return;
-  }
   if (reduceMotion) {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('revealed'));
     return;
   }
-  document.querySelectorAll('.reveal').forEach((el, i) => {
-    gsap.fromTo(el,
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1, y: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        /* clearProps ensures no inline styles remain; revealed class provides
-           the final visible CSS state so content is never trapped mid-transform */
-        clearProps: 'opacity,transform',
-        onComplete: () => el.classList.add('revealed'),
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 85%',
-          toggleActions: 'play none none none',
-        }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('revealed');
+        obs.unobserve(e.target);
       }
-    );
-  });
+    });
+  }, { threshold: 0.10, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 }
 
 /* ======================================================
-   HERO TEXT KINETIC ENTRANCE
+   HERO TEXT ENTRANCE via CSS transitions
+   Staggered delays set inline; CSS handles the animation.
    ====================================================== */
 function heroEntrance() {
   if (reduceMotion) {
@@ -1514,56 +1477,43 @@ function heroEntrance() {
       .forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
     return;
   }
-  if (typeof gsap === 'undefined') return;
-
-  const tl = gsap.timeline({ delay: 0.25 });
-
-  tl.to('.hero-eyebrow', { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0);
-
-  // Kinetic variable type: lines stagger up + letter-spacing compresses
-  tl.fromTo('.hero-h1', { letterSpacing: '0.08em' }, { letterSpacing: '-0.03em', duration: 1.4, ease: 'power3.out' }, 0.1);
-  tl.to('.h1-line-inner', {
-    opacity: 1,
-    y: 0,
-    duration: 1.1,
-    stagger: 0.14,
-    ease: 'power4.out'
-  }, 0.1);
-
-  tl.to('.hero-sub', { opacity: 1, duration: 0.7, ease: 'power2.out' }, 0.6);
-  tl.to('.hero-ctas', { opacity: 1, duration: 0.6, ease: 'power2.out' }, 0.8);
-  tl.to('.hero-note', { opacity: 1, duration: 0.5, ease: 'power2.out' }, 1.0);
-
-  // ScrollTrigger: kinetic parallax on hero title as you scroll away
-  ScrollTrigger.create({
-    trigger: '.hero-section',
-    start: 'top top',
-    end: 'bottom top',
-    scrub: 1,
-    onUpdate: (self) => {
-      gsap.set('.hero-content', {
-        y: self.progress * 60,
-        opacity: 1 - self.progress * 0.6
-      });
+  /* Defer to next frame so paint runs first, then transitions fire */
+  requestAnimationFrame(() => {
+    const eyebrow = document.querySelector('.hero-eyebrow');
+    if (eyebrow) {
+      eyebrow.style.transitionDelay = '0.05s';
+      eyebrow.classList.add('anim-in');
     }
+    document.querySelectorAll('.h1-line-inner').forEach((el, i) => {
+      el.style.transitionDelay = (0.18 + i * 0.13) + 's';
+      el.classList.add('anim-in');
+    });
+    const sub = document.querySelector('.hero-sub');
+    if (sub) { sub.style.transitionDelay = '0.52s'; sub.classList.add('anim-in'); }
+    const ctas = document.querySelector('.hero-ctas');
+    if (ctas) { ctas.style.transitionDelay = '0.72s'; ctas.classList.add('anim-in'); }
+    const note = document.querySelector('.hero-note');
+    if (note) { note.style.transitionDelay = '0.90s'; note.classList.add('anim-in'); }
   });
 }
 
 /* ======================================================
-   THREE.JS SETUP
+   THREE.JS SETUP (lightweight)
+   Single scene. Zero scene lights. MeshBasicMaterial for nodes.
+   Emissive glow via additive sprites. Sparse starfield Points.
+   Render loop pauses on hidden tab and when canvas is offscreen.
    ====================================================== */
 const heroCanvas = document.getElementById('hero-canvas');
 const heroSection = document.querySelector('.hero-section');
 const heroFallback = document.getElementById('hero-fallback');
 
-let renderer, scene, bgScene, camera, bgCamera;
+let renderer, scene, camera;
 let animFrameId = null;
 let webglReady = false;
+let tabHidden = false;
+let canvasVisible = true;
 
 /* Agent node definitions */
-/* Y values raised +3.5 vs original so the constellation projects to the upper
-   quarter of the canvas, cleanly above the bottom-anchored headline text.
-   Camera is at Y=1.0 looking at Y=0.0, so nodes at Y~3.5 project to ~top 20%. */
 const AGENT_DEFS = [
   { label: 'RESEARCH', color: 0xf5c542, hex: '#f5c542', pos: [-3.4, 3.8, 0.2] },
   { label: 'DESIGN',   color: 0xff6b3d, hex: '#ff6b3d', pos: [-1.9, 3.3, -0.3] },
@@ -1573,269 +1523,116 @@ const AGENT_DEFS = [
   { label: 'MARKET',   color: 0x3ddc84, hex: '#3ddc84', pos: [4.0, 3.5, -0.1] },
 ];
 
-/* GLSL background fragment shader */
-const BG_FRAG = `
-precision mediump float;
-uniform float uTime;
-uniform vec2 uResolution;
-varying vec2 vUv;
-
-float hash21(vec2 p) {
-  p = fract(p * vec2(234.34, 435.345));
-  p += dot(p, p + 34.23);
-  return fract(p.x * p.y);
-}
-
-void main() {
-  vec2 uv = vUv;
-
-  // Near-black substrate (#06070b)
-  vec3 col = vec3(0.024, 0.027, 0.043);
-
-  // Deep indigo grid lattice
-  vec2 gcell = fract(uv * 22.0);
-  float gx = 1.0 - smoothstep(0.0, 0.045, gcell.x);
-  float gy = 1.0 - smoothstep(0.0, 0.045, gcell.y);
-  float grid = max(gx, gy);
-  col += vec3(0.06, 0.09, 0.26) * grid * 0.35;
-
-  // Stars: procedural
-  vec2 starUv = uv * 75.0;
-  vec2 starId = floor(starUv);
-  vec2 starFr = fract(starUv) - 0.5;
-  float sr = hash21(starId);
-  if (sr > 0.938) {
-    float dist = length(starFr);
-    float twinkle = 0.6 + 0.4 * sin(uTime * (0.8 + sr * 1.4) + sr * 6.28318);
-    float star = smoothstep(0.32, 0.0, dist) * twinkle * (sr - 0.938) * 18.0;
-    col += vec3(0.55, 0.65, 1.0) * clamp(star, 0.0, 0.5);
-  }
-
-  // Horizontal scan lines (CRT / oscilloscope feel)
-  float scan = 0.5 + 0.5 * sin(uv.y * uResolution.y * 0.8);
-  col *= 0.975 + scan * 0.025;
-
-  // Radial vignette
-  float vig = length((uv - 0.5) * vec2(1.0, 1.2));
-  col *= 1.0 - smoothstep(0.3, 1.0, vig) * 0.75;
-
-  // Subtle indigo top-glow (instrument panel ceiling)
-  float topGlow = smoothstep(0.5, 0.0, uv.y) * 0.06;
-  col += vec3(0.1, 0.15, 0.45) * topGlow;
-
-  gl_FragColor = vec4(col, 1.0);
-}
-`;
-
-const BG_VERT = `
-varying vec2 vUv;
-void main() {
-  vUv = uv;
-  gl_Position = vec4(position, 1.0);
-}
-`;
-
 function initThree() {
   try {
-    /* Renderer */
+    /* Renderer: single scene, no autoClear override needed */
     renderer = new THREE.WebGLRenderer({ canvas: heroCanvas, antialias: true, alpha: false });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     const W = heroSection.clientWidth;
     const H = heroSection.clientHeight || window.innerHeight;
     renderer.setSize(W, H);
-    renderer.autoClear = false;
+    /* Background color matches CSS gradient base; CSS gradient handles the top glow */
+    renderer.setClearColor(0x070a10, 1);
 
-    /* Background scene: ortho camera + full-screen quad with GLSL shader */
-    bgScene = new THREE.Scene();
-    bgCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const bgMat = new THREE.ShaderMaterial({
-      vertexShader: BG_VERT,
-      fragmentShader: BG_FRAG,
-      uniforms: {
-        uTime:       { value: 0 },
-        uResolution: { value: new THREE.Vector2(W, H) }
-      },
-      depthWrite: false,
-      depthTest: false,
-    });
-    bgScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), bgMat));
-
-    /* Main 3D scene */
+    /* Scene: no lights at all (MeshBasicMaterial + additive sprites handle glow) */
     scene = new THREE.Scene();
-    /* FOV narrowed to 52, camera at Y=1.0 Z=10, lookAt at Y=0.0.
-       Nodes at Y~3.5 are ~2.5 units above the lookAt, projecting to ~top 20%
-       of canvas. Headline at bottom of hero section is completely clear. */
+
+    /* Camera */
     camera = new THREE.PerspectiveCamera(52, W / H, 0.1, 100);
     camera.position.set(0.3, 1.0, 10.0);
     camera.lookAt(0.3, 0.0, 0);
 
-    /* Ambient light */
-    scene.add(new THREE.AmbientLight(0x1a1f40, 0.6));
+    /* Sparse starfield (static Points; cheap per frame) */
+    const starCount = 280;
+    const starPos = new Float32Array(starCount * 3);
+    for (let i = 0; i < starCount; i++) {
+      starPos[i * 3]     = (Math.random() - 0.5) * 22;
+      starPos[i * 3 + 1] = (Math.random() - 0.5) * 18 + 2;
+      starPos[i * 3 + 2] = (Math.random() - 0.5) * 14 - 4;
+    }
+    const starGeo = new THREE.BufferGeometry();
+    starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+    const starMat = new THREE.PointsMaterial({
+      color: 0x6080b8,
+      size: 0.045,
+      transparent: true,
+      opacity: 0.55,
+      sizeAttenuation: true,
+    });
+    scene.add(new THREE.Points(starGeo, starMat));
 
     /* Spine curve (CatmullRom through node positions) */
     const curvePoints = AGENT_DEFS.map(a => new THREE.Vector3(...a.pos));
     const curve = new THREE.CatmullRomCurve3(curvePoints);
-    /* Spine: slightly wider, lighter indigo color, faintly visible at rest (0.30).
-       GSAP will animate it up to 0.55 as the timeline scrubs in. */
-    const tubeGeo = new THREE.TubeGeometry(curve, 120, 0.014, 6, false);
-    const tubeMat = new THREE.MeshBasicMaterial({ color: 0x3a55c0, transparent: true, opacity: 0.30 });
-    const spine = new THREE.Mesh(tubeGeo, tubeMat);
-    scene.add(spine);
+    const tubeGeo = new THREE.TubeGeometry(curve, 100, 0.012, 5, false);
+    const tubeMat = new THREE.MeshBasicMaterial({
+      color: 0x3a55c0,
+      transparent: true,
+      opacity: 0.40,
+    });
+    scene.add(new THREE.Mesh(tubeGeo, tubeMat));
 
-    /* Glow sprite texture (canvas-generated radial gradient) */
+    /* Glow sprite texture (canvas radial gradient; generated once) */
     const gc = document.createElement('canvas');
     gc.width = gc.height = 128;
     const gctx = gc.getContext('2d');
     const gg = gctx.createRadialGradient(64, 64, 0, 64, 64, 64);
-    gg.addColorStop(0, 'rgba(255,255,255,0.9)');
-    gg.addColorStop(0.35, 'rgba(255,255,255,0.2)');
-    gg.addColorStop(1, 'rgba(255,255,255,0.0)');
+    gg.addColorStop(0,    'rgba(255,255,255,0.92)');
+    gg.addColorStop(0.32, 'rgba(255,255,255,0.18)');
+    gg.addColorStop(1,    'rgba(255,255,255,0.00)');
     gctx.fillStyle = gg;
     gctx.fillRect(0, 0, 128, 128);
     const glowTex = new THREE.CanvasTexture(gc);
 
-    /* Agent nodes */
-    const nodeObjects = AGENT_DEFS.map((def, idx) => {
-      /* Core mesh */
+    /* Agent nodes: MeshBasicMaterial (no lighting math) + additive glow sprite */
+    const nodeObjects = AGENT_DEFS.map((def) => {
+      /* Core mesh: MeshBasicMaterial shows color as-is, zero lighting cost */
       const geo = def.isGate
-        ? new THREE.OctahedronGeometry(0.26, 0)
-        : new THREE.IcosahedronGeometry(0.22, 1);
-      /* Luminous at rest: emissiveIntensity 0.9 so nodes glow immediately on load.
-         GSAP scrub animates this up to 1.4 as the user scrolls. */
-      const mat = new THREE.MeshStandardMaterial({
-        color: new THREE.Color(def.color),
-        emissive: new THREE.Color(def.color),
-        emissiveIntensity: 0.9,
-        roughness: 0.18,
-        metalness: 0.85,
-      });
+        ? new THREE.OctahedronGeometry(0.24, 0)
+        : new THREE.IcosahedronGeometry(0.20, 1);
+      const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color(def.color) });
       const mesh = new THREE.Mesh(geo, mat);
       mesh.position.set(...def.pos);
       scene.add(mesh);
 
-      /* Glow sprite */
-      /* Halo visible at rest: opacity 0.50 so the additive-blend glow is present
-         without scroll. GSAP scrub lifts this to 0.65 at full activation. */
+      /* Additive glow sprite: provides halo without any scene light */
       const spriteMat = new THREE.SpriteMaterial({
         map: glowTex,
         color: new THREE.Color(def.color),
         blending: THREE.AdditiveBlending,
         transparent: true,
-        opacity: 0.50,
+        opacity: 0.55,
         depthWrite: false,
       });
       const sprite = new THREE.Sprite(spriteMat);
-      sprite.scale.set(def.isGate ? 2.2 : 1.8, def.isGate ? 2.2 : 1.8, 1);
+      sprite.scale.set(def.isGate ? 2.0 : 1.6, def.isGate ? 2.0 : 1.6, 1);
       sprite.position.set(...def.pos);
       scene.add(sprite);
 
-      /* Primary point light (GSAP-controlled): visible at rest, brightens on scroll. */
-      const light = new THREE.PointLight(def.color, 1.2, 4.5);
-      light.position.set(...def.pos);
-      scene.add(light);
-
-      /* Secondary idle light: animate-loop-controlled, breathes independently of
-         scroll. Keeps nodes glowing even when the GSAP timeline is at rest. */
-      const idleLight = new THREE.PointLight(def.color, 0.5, 3.0);
-      idleLight.position.set(...def.pos);
-      scene.add(idleLight);
-
-      return { mesh, mat, sprite, spriteMat, light, idleLight, def, basePos: [...def.pos] };
+      return { mesh, mat, sprite, spriteMat, def, basePos: [...def.pos] };
     });
 
-    /* Pulse orb (travels the spine) */
-    const pulseGeo = new THREE.SphereGeometry(0.055, 10, 10);
-    const pulseMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.0 });
+    /* Pulse orb: travels the curve on a timer loop, no GSAP needed */
+    const pulseGeo = new THREE.SphereGeometry(0.05, 8, 8);
+    const pulseMat = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.0,
+    });
     const pulseOrb = new THREE.Mesh(pulseGeo, pulseMat);
     scene.add(pulseOrb);
 
-    /* Pulse glow sprite */
     const pulseSpriteMat = new THREE.SpriteMaterial({
-      map: glowTex, color: 0xffffff,
-      blending: THREE.AdditiveBlending, transparent: true, opacity: 0.0, depthWrite: false
+      map: glowTex,
+      color: 0xffffff,
+      blending: THREE.AdditiveBlending,
+      transparent: true,
+      opacity: 0.0,
+      depthWrite: false,
     });
     const pulseSprite = new THREE.Sprite(pulseSpriteMat);
-    pulseSprite.scale.set(1.0, 1.0, 1);
+    pulseSprite.scale.set(0.9, 0.9, 1);
     scene.add(pulseSprite);
-
-    /* ======================================================
-       GSAP MASTER TIMELINE (scrubbed by ScrollTrigger)
-       ====================================================== */
-    const tState = { pulseT: 0 };
-    const masterTl = gsap.timeline({ paused: true });
-
-    /* 0.0 - 0.08: Spine brightens (starts faintly visible at 0.30, lifts to 0.55) */
-    masterTl.to(tubeMat, { opacity: 0.55, duration: 0.08 }, 0);
-
-    /* 0.08 - 0.55: Nodes materialize one by one */
-    nodeObjects.forEach((n, i) => {
-      const start = 0.08 + i * 0.08;
-      masterTl.to(n.mat, { emissiveIntensity: 1.4, duration: 0.1, ease: 'power2.out' }, start);
-      masterTl.to(n.spriteMat, { opacity: 0.65, duration: 0.1 }, start);
-      masterTl.to(n.light, { intensity: 1.8, duration: 0.1 }, start);
-    });
-
-    /* 0.55 - 0.70: Pulse travels Research to Verify (t: 0 to 0.65) */
-    masterTl.to(pulseMat, { opacity: 0.95, duration: 0.03 }, 0.55);
-    masterTl.to(pulseSpriteMat, { opacity: 0.8, duration: 0.03 }, 0.55);
-    masterTl.to(tState, {
-      pulseT: 0.62,
-      duration: 0.15,
-      ease: 'none',
-      onUpdate: () => {
-        const pt = curve.getPoint(tState.pulseT);
-        pulseOrb.position.copy(pt);
-        pulseSprite.position.copy(pt);
-      }
-    }, 0.55);
-
-    /* 0.70 - 0.82: GATE halts: node turns amber, pulse stops before gate */
-    masterTl.to(nodeObjects[4].mat.color, { r: 0.91, g: 0.62, b: 0.16, duration: 0.06 }, 0.70);
-    masterTl.to(nodeObjects[4].mat.emissive, { r: 0.91, g: 0.62, b: 0.16, duration: 0.06 }, 0.70);
-    masterTl.to(nodeObjects[4].mat, { emissiveIntensity: 2.8, duration: 0.06 }, 0.70);
-    masterTl.to(nodeObjects[4].spriteMat.color, { r: 0.91, g: 0.62, b: 0.16, duration: 0.06 }, 0.70);
-    masterTl.to(nodeObjects[4].light, { intensity: 3.5, duration: 0.06 }, 0.70);
-    masterTl.to(nodeObjects[4].light.color, { r: 0.91, g: 0.62, b: 0.16, duration: 0.06 }, 0.70);
-    /* Pulse color turns amber */
-    masterTl.to(pulseMat.color, { r: 0.91, g: 0.62, b: 0.16, duration: 0.04 }, 0.71);
-    masterTl.to(pulseSpriteMat.color, { r: 0.91, g: 0.62, b: 0.16, duration: 0.04 }, 0.71);
-
-    /* 0.82 - 1.0: GATE releases: turns green, pulse travels to Market */
-    masterTl.to(nodeObjects[4].mat.color, { r: 0.24, g: 0.86, b: 0.52, duration: 0.05 }, 0.82);
-    masterTl.to(nodeObjects[4].mat.emissive, { r: 0.24, g: 0.86, b: 0.52, duration: 0.05 }, 0.82);
-    masterTl.to(nodeObjects[4].mat, { emissiveIntensity: 1.6, duration: 0.05 }, 0.82);
-    masterTl.to(nodeObjects[4].spriteMat.color, { r: 0.24, g: 0.86, b: 0.52, duration: 0.05 }, 0.82);
-    masterTl.to(nodeObjects[4].light.color, { r: 0.24, g: 0.86, b: 0.52, duration: 0.05 }, 0.82);
-    masterTl.to(pulseMat.color, { r: 0.24, g: 0.86, b: 0.52, duration: 0.04 }, 0.83);
-    masterTl.to(pulseSpriteMat.color, { r: 0.24, g: 0.86, b: 0.52, duration: 0.04 }, 0.83);
-    masterTl.to(tState, {
-      pulseT: 1.0,
-      duration: 0.18,
-      ease: 'none',
-      onUpdate: () => {
-        const pt = curve.getPoint(Math.min(tState.pulseT, 0.9999));
-        pulseOrb.position.copy(pt);
-        pulseSprite.position.copy(pt);
-      }
-    }, 0.82);
-    masterTl.to(pulseMat, { opacity: 0.0, duration: 0.05 }, 0.95);
-    masterTl.to(pulseSpriteMat, { opacity: 0.0, duration: 0.05 }, 0.95);
-
-    /* ScrollTrigger scrubs the master timeline */
-    if (!reduceMotion) {
-      ScrollTrigger.create({
-        trigger: '.hero-section',
-        start: 'top top',
-        end: 'bottom center',
-        scrub: 1.5,
-        onUpdate: (self) => {
-          masterTl.progress(self.progress);
-        }
-      });
-    } else {
-      /* static state: all nodes active */
-      masterTl.progress(0.58);
-    }
 
     /* Show canvas, hide fallback */
     heroCanvas.classList.add('visible');
@@ -1843,77 +1640,90 @@ function initThree() {
     webglReady = true;
 
     /* ======================================================
-       RENDER LOOP
+       RENDER LOOP: pause on hidden tab + when canvas off-screen
        ====================================================== */
     const clock = new THREE.Clock();
-    let lastTime = 0;
-    let tabHidden = false;
+    const PULSE_PERIOD = 9.0; /* seconds per full spine pass */
+
+    /* Tab visibility pause */
     document.addEventListener('visibilitychange', () => { tabHidden = document.hidden; });
 
-    function animate(t) {
+    /* Canvas viewport pause via IntersectionObserver */
+    const canvasObs = new IntersectionObserver((entries) => {
+      canvasVisible = entries[0].isIntersecting;
+    }, { threshold: 0 });
+    canvasObs.observe(heroCanvas);
+
+    function animate() {
       animFrameId = requestAnimationFrame(animate);
-      if (tabHidden) return;
+      if (tabHidden || !canvasVisible) return;
+
       const elapsed = clock.getElapsedTime();
 
-      /* Update BG shader time */
-      bgMat.uniforms.uTime.value = elapsed;
+      /* Pulse orb: simple time-driven travel along the spine curve */
+      const rawT = (elapsed % PULSE_PERIOD) / PULSE_PERIOD; /* 0..1 */
+      const fadeIn  = rawT < 0.06  ? rawT / 0.06  : 1.0;
+      const fadeOut = rawT > 0.92  ? (1.0 - rawT) / 0.08 : 1.0;
+      const pulseAlpha = fadeIn * fadeOut * 0.70;
+      pulseMat.opacity = pulseAlpha;
+      pulseSpriteMat.opacity = pulseAlpha * 0.75;
 
-      /* Gentle idle animation: nodes float + rotate + breathe */
+      /* Color: amber near gate, green past gate, white elsewhere */
+      if (rawT > 0.63 && rawT < 0.74) {
+        const c = new THREE.Color(0xe8b44a);
+        pulseMat.color.copy(c); pulseSpriteMat.color.copy(c);
+      } else if (rawT >= 0.74) {
+        const c = new THREE.Color(0x3ddc84);
+        pulseMat.color.copy(c); pulseSpriteMat.color.copy(c);
+      } else {
+        const c = new THREE.Color(0xffffff);
+        pulseMat.color.copy(c); pulseSpriteMat.color.copy(c);
+      }
+      const curveT = Math.min(rawT * 1.04, 0.9999);
+      const pt = curve.getPoint(curveT);
+      pulseOrb.position.copy(pt);
+      pulseSprite.position.copy(pt);
+
+      /* Idle animation: nodes float + rotate; sprites breathe */
       nodeObjects.forEach((n, i) => {
         n.mesh.rotation.y += 0.004;
-        n.mesh.rotation.x += 0.0015;
-        const bobY = n.basePos[1] + Math.sin(elapsed * 0.6 + i * 1.1) * 0.04;
+        n.mesh.rotation.x += 0.0014;
+        const bobY = n.basePos[1] + Math.sin(elapsed * 0.55 + i * 1.1) * 0.038;
         n.mesh.position.y = bobY;
         n.sprite.position.y = bobY;
-        n.light.position.y = bobY;
-        n.idleLight.position.y = bobY;
-
-        /* Breathing pulse on sprite scale (GSAP owns opacity, we own scale here).
-           Creates a continuous inhale/exhale independent of scroll position. */
-        const breath = 1.0 + 0.12 * Math.sin(elapsed * 1.0 + i * 0.85);
-        const bscale = (n.def.isGate ? 2.2 : 1.8) * breath;
-        n.sprite.scale.set(bscale, bscale, 1);
-
-        /* Idle light breathes and tracks GSAP-controlled main light color so the
-           halo color stays correct through the amber HALT and green PASS phases. */
-        n.idleLight.color.copy(n.light.color);
-        n.idleLight.intensity = 0.38 + 0.26 * Math.sin(elapsed * 1.1 + i * 0.73);
+        /* Breathing: gentle scale pulse */
+        const breath = 1.0 + 0.10 * Math.sin(elapsed * 0.95 + i * 0.82);
+        const bs = (n.def.isGate ? 2.0 : 1.6) * breath;
+        n.sprite.scale.set(bs, bs, 1);
+        /* Subtle opacity breathe */
+        n.spriteMat.opacity = 0.48 + 0.14 * Math.sin(elapsed * 0.80 + i * 0.65);
       });
 
-      /* Slow camera drift: base values match camera setup (Y=1.0, lookAt Y=0.0) */
-      camera.position.x = 0.3 + Math.sin(elapsed * 0.08) * 0.18;
-      camera.position.y = 1.0 + Math.sin(elapsed * 0.12) * 0.10;
-      camera.lookAt(0.3 + Math.sin(elapsed * 0.07) * 0.1, 0.0, 0);
+      /* Slow camera drift */
+      camera.position.x = 0.3 + Math.sin(elapsed * 0.07) * 0.16;
+      camera.position.y = 1.0 + Math.sin(elapsed * 0.11) * 0.09;
+      camera.lookAt(0.3 + Math.sin(elapsed * 0.06) * 0.08, 0.0, 0);
 
-      /* Render: background first, then 3D scene */
-      renderer.clear();
-      renderer.render(bgScene, bgCamera);
       renderer.render(scene, camera);
     }
 
-    if (!reduceMotion) {
-      animate(0);
-    } else {
-      /* Reduced motion: render one static frame */
-      masterTl.progress(0.58);
-      renderer.clear();
-      renderer.render(bgScene, bgCamera);
+    if (reduceMotion) {
+      /* Static single frame: render once with all nodes visible */
       renderer.render(scene, camera);
+    } else {
+      animate();
     }
 
     /* Resize handler */
-    function onResize() {
+    window.addEventListener('resize', () => {
       const W2 = heroSection.clientWidth;
       const H2 = heroSection.clientHeight || window.innerHeight;
       camera.aspect = W2 / H2;
       camera.updateProjectionMatrix();
       renderer.setSize(W2, H2);
-      bgMat.uniforms.uResolution.value.set(W2, H2);
-    }
-    window.addEventListener('resize', onResize);
+    });
 
   } catch(err) {
-    /* WebGL failed: ensure fallback is visible */
     webglReady = false;
     console.warn('Octopus: Three.js init failed:', err.message);
     if (heroFallback) {
@@ -1927,17 +1737,11 @@ function initThree() {
    INIT SEQUENCE
    ====================================================== */
 function init() {
-  /* Start hero text animation regardless of WebGL */
   heroEntrance();
-
-  /* Try Three.js init */
   initThree();
-
-  /* Setup section reveals */
   setupReveal();
 }
 
-/* Run after DOM is ready */
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
