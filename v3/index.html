@@ -225,6 +225,31 @@ body::before {
 }
 .nav-github:hover { background: rgba(200,147,58,0.26); border-color: var(--gold); }
 .nav-github:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+/* Brand hover reveal: the retro octopus drawing pops below the logo */
+.brand-wrap { position: relative; flex-shrink: 0; display: flex; align-items: center; }
+.logo-pop {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: -8px;
+  padding: 12px;
+  background: rgba(11,18,32,0.94);
+  border: 1px solid var(--border-str);
+  border-radius: 12px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  pointer-events: none;
+  z-index: 300;
+}
+.logo-pop img { display: block; width: 240px; max-width: 62vw; height: auto; border-radius: 6px; }
+.brand-wrap:hover .logo-pop,
+.brand-wrap:focus-within .logo-pop { opacity: 1; visibility: visible; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) { .logo-pop { transition: none; transform: none; } }
+@media (max-width: 480px) { .logo-pop { display: none; } }
 @media (max-width: 720px) { .nav-links { display: none; } }
 @media (max-width: 440px) { .nav-ver { display: none; } }
 
@@ -1151,11 +1176,16 @@ html.js-motion .heritage-ascii-wrap.wipe-in {
 <!-- ===== NAV ============================================= -->
 <nav class="site-nav" aria-label="Main navigation">
   <div class="nav-inner">
-    <a href="#" class="nav-brand" aria-label="Octopus v3 home">
-      <img src="img/favicon.png" alt="Octopus" class="nav-mascot" width="26" height="26" loading="eager">
-      <span class="nav-wordmark">Octopus</span>
-      <span class="nav-ver">v3</span>
-    </a>
+    <div class="brand-wrap">
+      <a href="#" class="nav-brand" aria-label="Octopus v3 home">
+        <img src="img/favicon.png" alt="Octopus" class="nav-mascot" width="26" height="26" loading="eager">
+        <span class="nav-wordmark">Octopus</span>
+        <span class="nav-ver">v3</span>
+      </a>
+      <div class="logo-pop" role="img" aria-label="Octopus: five agents, one orchestrator">
+        <img src="img/octopus.png" alt="" width="240" loading="lazy">
+      </div>
+    </div>
     <nav class="nav-links" aria-label="Page sections">
       <a href="#agents">Agents</a>
       <a href="#workflow">Workflow</a>
@@ -1265,14 +1295,6 @@ html.js-motion .heritage-ascii-wrap.wipe-in {
   <div class="heritage-inner">
 
     <p class="heritage-eyebrow">Five agents. One orchestrator.</p>
-
-    <img
-      src="img/octopus.png"
-      alt="Octopus: five agents, one orchestrator"
-      class="heritage-img"
-      loading="lazy"
-      width="540"
-    >
 
     <div class="heritage-ascii-wrap" aria-label="OCTOPUS">
       <pre class="heritage-ascii" role="img" aria-label="OCTOPUS logo in ASCII art"><span class="heritage-ascii-line-y"> ████   ████  ██████  ████  █████  ██  ██ ██████</span>
