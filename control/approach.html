@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Control — The AI Approach</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+      background: #f0ece4;
+      color: #1a1a1a;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+    header {
+      background: #1a1a1a;
+      padding: 36px 0 28px;
+      border-bottom: 6px solid #2a5a8c;
+    }
+    header h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: -.03em; color: #f0ece4; }
+    header .subtitle { font-size: 0.85rem; font-weight: 300; letter-spacing: .2em; text-transform: uppercase; color: rgba(240,236,228,.35); margin-top: 4px; }
+
+    .breadcrumb { padding: 20px 0 0; font-size: 0.82rem; }
+    .breadcrumb a { color: rgba(26,26,26,.5); text-decoration: none; }
+    .breadcrumb a:hover { color: #2a5a8c; }
+
+    h2 { font-size: 1.35rem; font-weight: 700; color: #1a1a1a; margin: 40px 0 16px; letter-spacing: -.02em; border-bottom: 2px solid rgba(26,26,26,.08); padding-bottom: 8px; }
+
+    .pipeline-diagram {
+      background: #1a1a1a;
+      color: #f0ece4;
+      border-radius: 8px;
+      padding: 20px 28px;
+      margin: 20px 0 32px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .agent-card {
+      background: #fff;
+      border-left: 5px solid #2a5a8c;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      border-radius: 2px;
+    }
+    .agent-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+    .agent-card .agent-role { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: #2a5a8c; margin-bottom: 8px; }
+    .agent-card p { font-size: 0.88rem; color: rgba(26,26,26,.6); margin-bottom: 8px; }
+    .agent-card .artifact-links { margin-top: 10px; font-size: 0.82rem; }
+    .agent-card .artifact-links a { color: #2a5a8c; font-weight: 500; text-decoration: none; margin-right: 16px; }
+    .agent-card .artifact-links a:hover { text-decoration: underline; }
+
+    .issues-box { background: #fff; border-left: 5px solid #c43a31; padding: 20px 24px; margin-bottom: 20px; border-radius: 2px; }
+    .issues-box h3 { font-size: 1rem; font-weight: 700; color: #c43a31; margin-bottom: 8px; }
+    .issues-box p, .issues-box li { font-size: 0.88rem; color: rgba(26,26,26,.6); }
+
+    .concern-box { background: rgba(42,90,140,0.04); border: 1px solid rgba(42,90,140,0.15); padding: 16px 20px; margin-bottom: 16px; border-radius: 4px; }
+    .concern-box strong { color: #2a5a8c; }
+
+    .back-link { display: inline-block; margin: 40px 0 60px; font-size: 0.9rem; color: #2a5a8c; font-weight: 600; text-decoration: none; }
+    .back-link:hover { text-decoration: underline; }
+
+    footer { text-align: center; padding: 28px 0; font-size: 0.72rem; color: rgba(26,26,26,.25); border-top: 2px solid rgba(26,26,26,.08); letter-spacing: .08em; }
+
+    @media (max-width: 600px) { header h1 { font-size: 1.3rem; } }
+</style>
+</head>
+<body>
+
+<header>
+<div class="container">
+<h1>Control — The AI Approach</h1>
+<p class="subtitle">How Five Octopus Agents Built the Simple-Inputs Solution</p>
+</div>
+</header>
+
+<div class="container">
+
+<div class="breadcrumb"><a href="../landing.html">&larr; Back to Challenge Overview</a> &middot; <a href="index.html">View Control Solution</a></div>
+
+<h2>The Pipeline</h2>
+
+<p style="font-size:0.9rem; color:rgba(26,26,26,.6); margin-bottom:12px;">
+The Control solution received only the <strong>minimal prompt</strong> — a ten-line brief with no supporting research, no customer data summaries, and no strategic guidance. The agents had to derive everything from the raw CSV alone.
+</p>
+
+<div class="pipeline-diagram">
+  Yellow Researcher   &#x2500;&#x25B6;  Red-Orange Designer  &#x2500;&#x25B6;  Blue Maker &#x2225; Green Marketer  &#x2500;&#x25B6;  Purple Manager
+  (Scout mode)              (Design spec)              (Build page + Write copy)       (Integrate &amp; ship)
+</div>
+
+<h2>Agent-by-Agent Breakdown</h2>
+
+<div class="agent-card">
+  <div class="agent-role">Stage 1 &mdash; Intelligence</div>
+  <h3>&#x1F7E1; Yellow Researcher &amp; Analyst</h3>
+  <p>Diagnosed the churn by running PowerShell GROUP BY queries on the 45,349-row CSV. Identified 655 one-and-done members (42.1%) with a 75.3% cancellation rate. Found that first-class no-show is the #1 churn predictor (69.4% cancel rate), and that the 1st-to-2nd booking gap is a measurable early-warning signal (active median 5 days vs cancelled median 11 days). Named the at-risk segment: 158 active one-and-done members representing ~&#x20AC;7,000&ndash;11,000/month in recurring revenue.</p>
+  <div class="artifact-links">Artifacts: <a href="../.octopus/briefs/control-churn-analysis.md">control-churn-analysis.md</a> (379 lines)</div>
+</div>
+
+<div class="agent-card">
+  <div class="agent-role">Stage 2 &mdash; Design</div>
+  <h3>&#x1F7E0; Red-Orange Designer</h3>
+  <p>Designed a single-page progressive-disclosure booking experience targeting three churn moments: one-and-done, first-class no-show, and 7+ day inactive. Produced an 836-line design spec with ASCII wireframes, component specs, interaction states, and a traceability matrix linking every design decision to a specific research finding. Key design decisions: progressive disclosure on one page (no multi-page wizard), 7-day date window only, "Recommended" badges on Pilates and HIIT, and "Save My Spot" CTA language.</p>
+  <div class="artifact-links">Artifacts: <a href="../.octopus/designs/control-retention-page-spec.md">control-retention-page-spec.md</a> (836 lines)</div>
+</div>
+
+<div class="agent-card">
+  <div class="agent-role">Stage 3a &mdash; Build</div>
+  <h3>&#x1F535; Blue Maker</h3>
+  <p>Built a 1,678-line, 53.8 KB single-page HTML booking experience. Implements progressive disclosure (Hero &rarr; Class Picker &rarr; Date/Time &rarr; Confirmation &rarr; Success), three entry-context hero variants via URL params, 7 class types with embedded schedule JSON, pre-filled identifiers from URL params, animated SVG checkmark success state, client-side ICS calendar generation, and responsive design at three breakpoints. No external dependencies beyond Google Fonts.</p>
+  <div class="artifact-links">Artifacts: <a href="index.html">control/index.html</a> (1,678 lines) &middot; <a href="../.octopus/handoffs/maker-done.md">maker-done.md</a></div>
+</div>
+
+<div class="agent-card">
+  <div class="agent-role">Stage 3b &mdash; Copy</div>
+  <h3>&#x1F7E2; Green Marketer</h3>
+  <p>Wrote 321 lines of sales copy covering three hero variants (at-risk: "We saved your spot", no-show: "Fresh start. New class.", inactive: "Your next class is waiting"), all 7 class type cards with intensity indicators and "why try this" taglines, section headers and form microcopy, five "Good to Know" post-booking tips, meta tags, and a three-line social proof strip. Built a full research-to-copy traceability matrix.</p>
+  <div class="artifact-links">Artifacts: <a href="../.octopus/handoffs/marketer-copy.md">marketer-copy.md</a> (321 lines)</div>
+</div>
+
+<div class="agent-card">
+  <div class="agent-role">Stage 4 &mdash; Orchestration</div>
+  <h3>&#x1F7E3; Purple Manager</h3>
+  <p>Integrated the Marketer's copy into the Maker's page: added social proof strip, class card descriptions with intensity dots, updated all five tips to match the copywriter's exact language, added meta tags and OG tags, updated form placeholders and error messages, added success subheading, and refined the hero copy. Committed and deployed to GitHub Pages.</p>
+</div>
+
+<h2>Issues &amp; Concerns</h2>
+
+<div class="issues-box">
+  <h3>Spec Deviation: 7 Class Types vs 4</h3>
+  <p>The design spec's wireframes showed 4 class types (Pilates, HIIT, Yoga, Spin) but the Maker was instructed to include all 7 from the data. The grid layout handled it, but this is a <strong>spec-vs-reality mismatch</strong> — the designer worked from a simplified model while the builder had the full data.</p>
+</div>
+
+<div class="issues-box">
+  <h3>No Real Backend</h3>
+  <p>The form submission is simulated with a 1.5s delay. A TODO comment marks where the real API call would go. In production, this would need a Formspree or equivalent backend for the booking to actually reach the gym.</p>
+</div>
+
+<div class="issues-box">
+  <h3>Static Schedule</h3>
+  <p>The class schedule is hardcoded JSON in the page. For real use, a dynamic schedule API would be needed to keep slots accurate week-to-week.</p>
+</div>
+
+<div class="issues-box">
+  <h3>No Cold Verify Gate</h3>
+  <p>Unlike the Real Brief pipeline, the Control pipeline had no independent audit step. The Manager reviewed the outputs but there was no blind verifier checking the deliverables against frozen criteria. This means undetected errors (hallucinated stats, broken handoffs, off-brand lines) could have slipped through uncaught.</p>
+</div>
+
+<div class="concern-box">
+  <strong>Advantage:</strong> The minimal prompt forced the agents to derive facts from the raw data — no risk of hallucinating from assumed summary statistics. Every number came from the CSV.
+</div>
+
+<div class="concern-box">
+  <strong>Disadvantage:</strong> Without the rich harness (brand voice, member verbatims, three.js spec, tone discipline), the Control page is a <em>functionally solid but emotionally generic</em> booking form. It books a class, but it doesn't tell a story.
+</div>
+
+<h2>Key Artifacts</h2>
+
+<table style="width:100%; border-collapse:collapse; margin:12px 0 32px; font-size:0.88rem;">
+<tr style="border-bottom:2px solid rgba(26,26,26,.1);">
+  <th style="text-align:left; padding:8px 12px; color:rgba(26,26,26,.5); font-weight:500;">Agent</th>
+  <th style="text-align:left; padding:8px 12px; color:rgba(26,26,26,.5); font-weight:500;">Artifact</th>
+  <th style="text-align:left; padding:8px 12px; color:rgba(26,26,26,.5); font-weight:500;">Type</th>
+</tr>
+<tr style="border-bottom:1px solid rgba(26,26,26,.05);">
+  <td style="padding:10px 12px; font-weight:600;">&#x1F7E1; Yellow</td>
+  <td style="padding:10px 12px;"><a href="../.octopus/briefs/control-churn-analysis.md" style="color:#2a5a8c;">control-churn-analysis.md</a></td>
+  <td style="padding:10px 12px; color:rgba(26,26,26,.5);">Research Brief</td>
+</tr>
+<tr style="border-bottom:1px solid rgba(26,26,26,.05);">
+  <td style="padding:10px 12px; font-weight:600;">&#x1F7E0; Red-Orange</td>
+  <td style="padding:10px 12px;"><a href="../.octopus/designs/control-retention-page-spec.md" style="color:#2a5a8c;">control-retention-page-spec.md</a></td>
+  <td style="padding:10px 12px; color:rgba(26,26,26,.5);">Design Spec</td>
+</tr>
+<tr style="border-bottom:1px solid rgba(26,26,26,.05);">
+  <td style="padding:10px 12px; font-weight:600;">&#x1F535; Blue</td>
+  <td style="padding:10px 12px;"><a href="index.html" style="color:#2a5a8c;">control/index.html</a></td>
+  <td style="padding:10px 12px; color:rgba(26,26,26,.5);">Live Page</td>
+</tr>
+<tr style="border-bottom:1px solid rgba(26,26,26,.05);">
+  <td style="padding:10px 12px; font-weight:600;">&#x1F535; Blue</td>
+  <td style="padding:10px 12px;"><a href="../.octopus/handoffs/maker-done.md" style="color:#2a5a8c;">maker-done.md</a></td>
+  <td style="padding:10px 12px; color:rgba(26,26,26,.5);">Build Report</td>
+</tr>
+<tr style="border-bottom:1px solid rgba(26,26,26,.05);">
+  <td style="padding:10px 12px; font-weight:600;">&#x1F7E2; Green</td>
+  <td style="padding:10px 12px;"><a href="../.octopus/handoffs/marketer-copy.md" style="color:#2a5a8c;">marketer-copy.md</a></td>
+  <td style="padding:10px 12px; color:rgba(26,26,26,.5);">Copy &amp; Strategy</td>
+</tr>
+</table>
+
+<a href="../landing.html" class="back-link">&larr; Back to Challenge Overview</a>
+
+</div>
+
+<footer>
+FlexHaus Retention Challenge &middot; Customer Engagement &amp; AI &middot; Week 5
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Real Brief — The AI Approach</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+      background: #f0ece4;
+      color: #1a1a1a;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+    header {
+      background: #1a1a1a;
+      padding: 36px 0 28px;
+      border-bottom: 6px solid #c43a31;
+    }
+    header h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: -.03em; color: #f0ece4; }
+    header .subtitle { font-size: 0.85rem; font-weight: 300; letter-spacing: .2em; text-transform: uppercase; color: rgba(240,236,228,.35); margin-top: 4px; }
+
+    .breadcrumb { padding: 20px 0 0; font-size: 0.82rem; }
+    .breadcrumb a { color: rgba(26,26,26,.5); text-decoration: none; }
+    .breadcrumb a:hover { color: #c43a31; }
+
+    h2 { font-size: 1.35rem; font-weight: 700; color: #1a1a1a; margin: 40px 0 16px; letter-spacing: -.02em; border-bottom: 2px solid rgba(26,26,26,.08); padding-bottom: 8px; }
+
+    .pipeline-diagram {
+      background: #1a1a1a;
+      color: #f0ece4;
+      border-radius: 8px;
+      padding: 20px 28px;
+      margin: 20px 0 32px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .agent-card {
+      background: #fff;
+      border-left: 5px solid #c43a31;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      border-radius: 2px;
+    }
+    .agent-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+    .agent-card .agent-role { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: #c43a31; margin-bottom: 8px; }
+    .agent-card p { font-size: 0.88rem; color: rgba(26,26,26,.6); margin-bottom: 8px; }
+    .agent-card .artifact-links { margin-top: 10px; font-size: 0.82rem; }
+    .agent-card .artifact-links a { color: #c43a31; font-weight: 500; text-decoration: none; margin-right: 16px; }
+    .agent-card .artifact-links a:hover { text-decoration: underline; }
+
+    .issues-box { background: #fff; border-left: 5px solid #1a6b3a; padding: 20px 24px; margin-bottom: 20px; border-radius: 2px; }
+    .issues-box h3 { font-size: 1rem; font-weight: 700; color: #1a6b3a; margin-bottom: 8px; }
+    .issues-box p, .issues-box li { font-size: 0.88rem; color: rgba(26,26,26,.6); }
+
+    .catch-box { background: rgba(196,58,49,0.06); border: 2px solid #c43a31; padding: 20px 24px; margin-bottom: 20px; border-radius: 4px; }
+    .catch-box h3 { font-size: 1rem; font-weight: 700; color: #c43a31; margin-bottom: 8px; }
+    .catch-box p { font-size: 0.88rem; color: rgba(26,26,26,.7); }
+    .catch-box code { background: rgba(196,58,49,0.08); padding: 1px 5px; border-radius: 2px; font-size: 0.82rem; }
+
+    .data-flag { background: rgba(196,58,49,0.03); border: 1px solid rgba(196,58,49,0.2); padding: 14px 18px; margin-bottom: 12px; border-radius: 4px; }
+    .data-flag strong { color: #c43a31; }
+
+    .concern-box { background: rgba(196,58,49,0.04); border: 1px solid rgba(196,58,49,0.15); padding: 16px 20px; margin-bottom: 16px; border-radius: 4px; }
+    .concern-box strong { color: #c43a31; }
+
+    .green-concern { background: rgba(26,107,58,0.04); border: 1px solid rgba(26,107,58,0.15); padding: 16px 20px; margin-bottom: 16px; border-radius: 4px; }
+    .green-concern strong { color: #1a6b3a; }
+
+    .back-link { display: inline-block; margin: 40px 0 60px; font-size: 0.9rem; color: #c43a31; font-weight: 600; text-decoration: none; }
+    .back-link:hover { text-decoration: underline; }
+
+    footer { text-align: center; padding: 28px 0; font-size: 0.72rem; color: rgba(26,26,26,.25); border-top: 2px solid rgba(26,26,26,.08); letter-spacing: .08em; }
+
+    .pass { color: #1a6b3a; font-weight: 700; }
+    .fail { color: #c43a31; font-weight: 700; }
+
+    table { width: 100%; border-collapse: collapse; margin: 12px 0 32px; font-size: 0.88rem; }
+    tr { border-bottom: 1px solid rgba(26,26,26,.05); }
+    th { text-align: left; padding: 8px 12px; color: rgba(26,26,26,.5); font-weight: 500; border-bottom: 2px solid rgba(26,26,26,.1); }
+
+    @media (max-width: 600px) { header h1 { font-size: 1.3rem; } }
+</style>
+</head>
+<body>
+
+<header>
+<div class="container">
+<h1>Real Brief — The AI Approach</h1>
+<p class="subtitle">How Five Named Specialists + Cold Verify Built the Rich-Inputs Solution</p>
+</div>
+</header>
+
+<div class="container">
+
+<div class="breadcrumb"><a href="../landing.html">&larr; Back to Challenge Overview</a> &middot; <a href="index.html">View Real Brief Solution</a></div>
+
+<h2>The Pipeline</h2>
+
+<p style="font-size:0.9rem; color:rgba(26,26,26,.6); margin-bottom:12px;">
+The Real Brief received the <strong>full harness</strong> — a 298-line context file with backstory, data summaries, voice-of-member verbatims, brand direction, named specialist contracts, a mandatory three.js spec, and a Cold Verify STOP gate. This pipeline included a blind audit step absent from the Control version.
+</p>
+
+<div class="pipeline-diagram">
+  Yellow (Tara)  &#x2500;&#x25B6;  Red-Orange (Mateo) &#x2225; Green (R&oacute;is&iacute;n)  &#x2500;&#x25B6;  Blue (Kojo)  &#x2500;&#x25B6;  Yellow (Cold Verify)  &#x2500;&#x25B6;  Purple (STOP gate)
+  Diagnosis           Design spec + Win-back copy            three.js page          Blind audit               Ship / fix
+</div>
+
+<h2>Agent-by-Agent Breakdown</h2>
+
+<div class="agent-card">
+  <div class="agent-role">Stage 1 &mdash; Intelligence</div>
+  <h3>&#x1F7E1; Yellow: Tara (Membership Retention &amp; Churn Analyst)</h3>
+  <p>Rebuilt the entire member panel from the 45,349-row CSV (1,556 members). Ran five prescribed analyses: (1) member panel with tenure and attendance breakdowns, (2) churn curve proving 1.98&times; lift for one-and-done members (75.3% vs 38.1%), (3) at-risk segment defined precisely: <em>active AND (total_bookings &le; 2 OR days_since_last_booking &ge; 30)</em> = 195 members / &euro;8,797/mo / &euro;105,564/year, (4) no-show patterns by segment, and (5) reactivation lever identification (Marta at 64.4% return rate). Named the ONE metric: comeback-class bookings within 30 days. Flagged three data anomalies (see below).</p>
+  <div class="artifact-links">Artifacts: <a href="../.octopus/briefs/diagnosis.md">diagnosis.md</a> (465 lines) &middot; <a href="../.octopus/briefs/member_panel.csv">member_panel.csv</a> (1,556 rows)</div>
+</div>
+
+<div class="agent-card">
+  <div class="agent-role">Stage 2a &mdash; Design</div>
+  <h3>&#x1F7E0; Red-Orange: Mateo (Conversion-Led 3D Experience Designer)</h3>
+  <p>Delivered a 1,198-line design spec for the three.js comeback-booking page: four-stage scroll choreography (resting pulse &rarr; gym fly-through &rarr; proof columns &rarr; Volt-green card pool), brand palette (Carbon/Chalk/Volt/Ember), typography system (Anton/Inter), component specs for all sections, five interaction states, reduced-motion and no-WebGL fallback designs, comprehensive accessibility plan, and five performance trade-off flags. Every design decision traced to Tara's diagnosis.</p>
+  <div class="artifact-links">Artifacts: <a href="../.octopus/designs/design-spec.md">design-spec.md</a> (1,198 lines)</div>
+</div>
+
+<div class="agent-card">
+  <div class="agent-role">Stage 2b &mdash; Distribution</div>
+  <h3>&#x1F7E2; Green: R&oacute;is&iacute;n (Fitness Lifecycle &amp; Win-Back Copywriter)</h3>
+  <p>Wrote a complete 3-touch win-back sequence across three behavioural cohorts: (A) Fresh one-and-done (43 members), (B) Long-lapsed guilt-payers (115 members), (C) Quietly stopped regulars (27 members). Each cohort gets SMS &rarr; Email &rarr; Final Nudge with cohort-specific messaging spines. Included two Instagram posts, three hero copy variants for the comeback page, a 15-row research-to-copy traceability table, and a per-message GDPR audit. Zero invented statistics.</p>
+  <div class="artifact-links">Artifacts: <a href="../.octopus/handoffs/marketing.md">marketing.md</a> (416 lines)</div>
+</div>
+
+<div class="agent-card">
+  <div class="agent-role">Stage 3 &mdash; Build</div>
+  <h3>&#x1F535; Blue: Kojo (three.js + Static-Deploy Front-End Engineer)</h3>
+  <p>Built a 1,881-line single-file three.js comeback-booking page. Procedural 3D scenes: pulse line (TubeGeometry), gym fly-through (InstancedMesh rig pillars, floor tiles, wall panels), chalk-dust GPU particles (Points + AdditiveBlending), proof columns with scroll-staggered reveals, Volt-green light pool (semi-transparent planes). Device tier detection (high/mid/low), DPR capped at 2, delta-time lerp damping, no post-processing bloom (CSS box-shadow glow instead). Complete form with Formspree/mailto fallback. Reduced-motion and no-WebGL fallbacks.</p>
+  <div class="artifact-links">Artifacts: <a href="index.html">real/index.html</a> (1,881 lines, 65 KB)</div>
+</div>
+
+<div class="agent-card">
+  <div class="agent-role">Stage 4 &mdash; Audit</div>
+  <h3>&#x1F7E1; Yellow: Cold Verifier (Blind, Independent)</h3>
+  <p>Audited all five deliverables against six frozen criteria from the harness. Scored <strong>6/6 PASS</strong> on: data-bound diagnosis, one-metric focus, on-brand voice, GDPR compliance, and no hallucinated facts. The page scored PASS-with-gaps (IntersectionObserver omission, proof beat stagger unimplemented). <strong>Found one critical catch</strong>: the URL parameter contract between R&oacute;is&iacute;n and Kojo was broken — marketing links passed <code>?id=</code> and <code>?slot=</code> but the page only read <code>?cohort=</code>. This severed the personalisation chain and campaign measurement loop. The Purple Manager fixed it before shipping.</p>
+  <div class="artifact-links">Artifacts: <a href="../.octopus/handoffs/cold-verify.md">cold-verify.md</a> (156 lines)</div>
+</div>
+
+<h2>The Catch: What The Cold Verifier Found</h2>
+
+<div class="catch-box">
+  <h3>&#x26A0; BROKEN HANDOFF: URL Parameter Contract</h3>
+  <p>R&oacute;is&iacute;n's marketing links used <code>?id=[member_id]&slot=tue-9am-strength</code> but Kojo's page read only <code>?cohort=a|b|c</code>. The personalisation chain — member-specific pre-fill, slot pre-selection, conversion tracking — was severed. When a member tapped a win-back link, the page could not pre-fill their name, known class preferences, or track which at-risk member converted.</p>
+  <p style="margin-top:8px;"><strong>Resolution:</strong> The Purple Manager added <code>id</code>, <code>name</code>, and <code>slot</code> parameter parsing with dynamic form pre-fill and a hidden <code>member_id</code> field before shipping.</p>
+</div>
+
+<div class="concern-box">
+  <strong>Non-blocking gaps (not fixed before shipping):</strong> No IntersectionObserver for DOM crossfades (JS-driven opacity in rAF instead), proof beat stagger unimplemented (all three fade as one unit), and the marketing copy's three cohort counts (43+115+27=185) don't sum to the 195 total — the 10 "2 bookings, recent" borderline members are unaccounted for in the copy segmentation.
+</div>
+
+<h2>Data Anomalies Tara Found</h2>
+
+<div class="data-flag">
+  <strong>&#x26A0; MRR Mismatch:</strong> Computed active MRR = &euro;28,645 (637 members &times; &euro;44.97 avg) vs the &sect;2.1 benchmark of ~&euro;30,800. Likely because the benchmark includes frozen members' fees or was rounded from an earlier reference date.
+</div>
+
+<div class="data-flag">
+  <strong>&#x26A0; Inverted Booking Buckets:</strong> The 2&ndash;4 booking bucket is 8.9% in the data vs ~27% in the summary table. The 20+ bucket is 28.8% vs ~8%. These two buckets are essentially swapped vs the harness benchmarks. The 1-booking and 5&ndash;20 buckets match perfectly. The churn lift calculation is unaffected.
+</div>
+
+<div class="data-flag">
+  <strong>&#x26A0; Zero No-Shows for One-and-Done Members:</strong> All 655 single-booking members "attended" their only class — zero no-shows. In real-world gym data, some first-class no-shows would be expected. This is a synthetic data artifact.
+</div>
+
+<h2>Cold Verify Scorecard</h2>
+
+<table>
+<tr><th>#</th><th>Criterion</th><th>Verdict</th></tr>
+<tr><td style="padding:10px 12px;">1</td><td style="padding:10px 12px;">Diagnosis is data-bound</td><td style="padding:10px 12px;"><span class="pass">PASS</span></td></tr>
+<tr><td style="padding:10px 12px;">2</td><td style="padding:10px 12px;">One metric, not five</td><td style="padding:10px 12px;"><span class="pass">PASS</span></td></tr>
+<tr><td style="padding:10px 12px;">3</td><td style="padding:10px 12px;">Page runs on a phone</td><td style="padding:10px 12px;"><span class="pass">PASS</span> (with gaps)</td></tr>
+<tr><td style="padding:10px 12px;">4</td><td style="padding:10px 12px;">On-brand, on-voice</td><td style="padding:10px 12px;"><span class="pass">PASS</span></td></tr>
+<tr><td style="padding:10px 12px;">5</td><td style="padding:10px 12px;">GDPR-clean and kind</td><td style="padding:10px 12px;"><span class="pass">PASS</span></td></tr>
+<tr><td style="padding:10px 12px;">6</td><td style="padding:10px 12px;">No hallucinated facts</td><td style="padding:10px 12px;"><span class="pass">PASS</span></td></tr>
+</table>
+
+<h2>Key Artifacts</h2>
+
+<table>
+<tr><th>Agent</th><th>Artifact</th><th>Type</th></tr>
+<tr><td style="padding:10px 12px; font-weight:600;">&#x1F7E1; Tara</td><td style="padding:10px 12px;"><a href="../.octopus/briefs/diagnosis.md" style="color:#c43a31;">diagnosis.md</a></td><td style="padding:10px 12px; color:rgba(26,26,26,.5);">Diagnosis</td></tr>
+<tr><td style="padding:10px 12px; font-weight:600;">&#x1F7E1; Tara</td><td style="padding:10px 12px;"><a href="../.octopus/briefs/member_panel.csv" style="color:#c43a31;">member_panel.csv</a></td><td style="padding:10px 12px; color:rgba(26,26,26,.5);">Rebuilt Panel</td></tr>
+<tr><td style="padding:10px 12px; font-weight:600;">&#x1F7E0; Mateo</td><td style="padding:10px 12px;"><a href="../.octopus/designs/design-spec.md" style="color:#c43a31;">design-spec.md</a></td><td style="padding:10px 12px; color:rgba(26,26,26,.5);">Design Spec</td></tr>
+<tr><td style="padding:10px 12px; font-weight:600;">&#x1F7E2; R&oacute;is&iacute;n</td><td style="padding:10px 12px;"><a href="../.octopus/handoffs/marketing.md" style="color:#c43a31;">marketing.md</a></td><td style="padding:10px 12px; color:rgba(26,26,26,.5);">Win-Back Campaign</td></tr>
+<tr><td style="padding:10px 12px; font-weight:600;">&#x1F535; Kojo</td><td style="padding:10px 12px;"><a href="index.html" style="color:#c43a31;">real/index.html</a></td><td style="padding:10px 12px; color:rgba(26,26,26,.5);">Live Page</td></tr>
+<tr><td style="padding:10px 12px; font-weight:600;">&#x1F7E1; Verifier</td><td style="padding:10px 12px;"><a href="../.octopus/handoffs/cold-verify.md" style="color:#c43a31;">cold-verify.md</a></td><td style="padding:10px 12px; color:rgba(26,26,26,.5);">Audit Report</td></tr>
+</table>
+
+<div class="green-concern">
+  <strong>What the harness bought:</strong> The rich brief gave every agent a named identity, a specific contract, brand guardrails, and a data-driven handoff chain. The 3D comeback experience, the cohort-specific win-back copy, the GDPR audit, and the blind quality gate are all products of the context &mdash; not a smarter model. The page doesn't just book a class; it tells the member they were remembered.
+</div>
+
+<div class="concern-box">
+  <strong>What the harness cost:</strong> Complexity. The three.js spec demanded a specialist builder, the Cold Verify step added a turn-around cycle, and the URL parameter mismatch required a manual fix. A simple prompt would have shipped a flat form in one pass &mdash; but it would have been a flat form.
+</div>
+
+<a href="../landing.html" class="back-link">&larr; Back to Challenge Overview</a>
+
+</div>
+
+<footer>
+FlexHaus Retention Challenge &middot; Customer Engagement &amp; AI &middot; Week 5
+</footer>
+
+</body>
+</html>

@@ -125,10 +125,10 @@
       border: 1px solid rgba(26,26,26,.1);
       border-top-width: 4px;
       padding: 28px 24px 24px;
-      text-decoration: none;
       display: block;
       color: inherit;
       transition: transform .15s, box-shadow .15s;
+      position: relative;
     }
     .tile:hover {
       transform: translateY(-2px);
@@ -168,6 +168,19 @@
     }
     .tile.control .arrow { color: #2a5a8c; }
     .tile.real .arrow { color: #c43a31; }
+    .tile .approach-link {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: .02em;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      opacity: 0.7;
+    }
+    .tile.control .approach-link { color: #2a5a8c; }
+    .tile.real .approach-link { color: #c43a31; }
+    .tile .approach-link:hover { opacity: 1; }
 
     .deliverables-box {
       background: #fff;
@@ -206,7 +219,60 @@
     @media (max-width: 700px) {
       .tiles-grid { grid-template-columns: 1fr; }
       header h1 { font-size: 1.4rem; }
+      .comparison-table { display: block; }
+      .comparison-table td { display: block; padding: 10px 16px; }
+      .comparison-table td:first-child { font-weight: 700; padding-bottom: 4px; }
     }
+
+    .comparison-tile {
+      background: #fff;
+      border: 1px solid rgba(26,26,26,.1);
+      border-top: 4px solid #1a1a1a;
+      padding: 32px 28px 28px;
+      margin-bottom: 40px;
+    }
+    .comparison-tile h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+    .comparison-tile .subtitle {
+      font-size: 0.82rem;
+      color: rgba(26,26,26,.45);
+      margin-bottom: 24px;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      color: rgba(26,26,26,.65);
+      line-height: 1.7;
+    }
+    .comparison-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(26,26,26,.06);
+      vertical-align: top;
+    }
+    .comparison-table td:first-child {
+      font-weight: 600;
+      color: rgba(26,26,26,.35);
+      width: 180px;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .comparison-table tr:last-child td { border-bottom: none; }
+    .comparison-table .col-control {
+      color: #2a5a8c;
+      font-weight: 500;
+    }
+    .comparison-table .col-real {
+      color: #c43a31;
+      font-weight: 500;
+    }
+    .comparison-table a { color: inherit; }
   </style>
 </head>
 <body>
@@ -258,18 +324,73 @@ Mission: Produce a member-retention plan with one working artifact
 </div>
 
 <div class="tiles-grid">
-<a href="control/index.html" class="tile control">
+<div class="tile control">
 <div class="tile-label">Simple Inputs</div>
 <h3>Control</h3>
 <p>Minimal prompt. The AI receives only the raw brief with no supporting research, customer data, or strategic guidance. A baseline for comparison.</p>
-<span class="arrow">&rarr; View Control Solution</span>
-</a>
-<a href="real/index.html" class="tile real">
+<a href="control/index.html" class="arrow">&rarr; View Control Solution</a>
+<a href="control/approach.html" class="approach-link">&rarr; Discover the AI Approach</a>
+</div>
+<div class="tile real">
 <div class="tile-label">Rich Inputs</div>
 <h3>Real Brief</h3>
 <p>Full brief. The AI receives enriched context &mdash; customer personas, churn data patterns, competitive landscape, and behavioural insights.</p>
-<span class="arrow">&rarr; View Real Brief Solution</span>
-</a>
+<a href="real/index.html" class="arrow">&rarr; View Real Brief Solution</a>
+<a href="real/approach.html" class="approach-link">&rarr; Discover the AI Approach</a>
+</div>
+</div>
+
+<div class="comparison-tile">
+<h3>Control vs Real Brief: What Changed?</h3>
+<p class="subtitle">The model didn't get smarter. The context did. Here's what the rich harness bought — and what it cost.</p>
+
+<table class="comparison-table">
+<tr>
+  <td>Prompt</td>
+  <td><span class="col-control">10-line raw brief</span></td>
+  <td><span class="col-real">298-line harness with backstory, data summaries, voice-of-member verbatims, brand direction, named specialist contracts, mandatory three.js spec, and Cold Verify gate</span></td>
+</tr>
+<tr>
+  <td>Agent identity</td>
+  <td><span class="col-control">Generic roles ("Researcher", "Designer")</span></td>
+  <td><span class="col-real">Named specialists with domain expertise and personal contracts (Tara, Mateo, Kojo, R&oacute;is&iacute;n)</span></td>
+</tr>
+<tr>
+  <td>Output</td>
+  <td><span class="col-control">Flat HTML booking page (53.8 KB). Functional, clean, but emotionally generic.</span></td>
+  <td><span class="col-real">Scroll-driven three.js comeback experience (65 KB). Branded palette, procedural 3D, device-tier adaptation, fallbacks, plus a 3-touch win-back campaign with 2 Instagram posts.</span></td>
+</tr>
+<tr>
+  <td>Data rigour</td>
+  <td><span class="col-control">Good. CSV queried, churn diagnosed, at-risk segment found. But no independent audit.</span></td>
+   <td><span class="col-real">Better. Full member panel rebuilt (1,556 rows). Three data anomalies flagged transparently. One-metric focus enforced. Every number traceable to CSV.</span></td>
+</tr>
+<tr>
+  <td>Brand discipline</td>
+  <td><span class="col-control">Adequate. Uses the palette and fonts from a one-line brief. No brand voice guidance.</span></td>
+  <td><span class="col-real">Strong. Carbon/Chalk/Volt/Ember palette, Anton/Inter type, "Comeback / we saved you a spot" spine, warm-not-shaming tone. Unmistakably FlexHaus.</span></td>
+</tr>
+<tr>
+  <td>Quality gate</td>
+  <td><span class="col-control">None. Manager reviewed but no blind audit. Errors could slip through.</span></td>
+  <td><span class="col-real">Cold Verify. Independent blind auditor scored 6/6 criteria, caught a broken URL handoff, and named non-blocking gaps. Fixed before shipping.</span></td>
+</tr>
+<tr>
+  <td>Strategic depth</td>
+  <td><span class="col-control">Page-centric. A booking form with good copy. No follow-up campaign, no channel strategy, no cohort segmentation.</span></td>
+  <td><span class="col-real">Campaign-wide. Three behavioural cohorts with distinct messaging spines, SMS/Email/Instagram channel mix, GDPR-audited, metric-traceable. The page is the centrepiece, not the whole plan.</span></td>
+</tr>
+<tr>
+  <td>Performance</td>
+  <td><span class="col-control">Fast. 53.8 KB, zero JavaScript overhead, loads instantly. Works on any device.</span></td>
+  <td><span class="col-real">Managed. 65 KB + three.js CDN payload (~150 KB gzipped). Device-tier detection, DPR cap, procedural geometry. Mobile-first. Fallback page works with zero 3D.</span></td>
+</tr>
+<tr>
+  <td>Risk of hallucination</td>
+  <td><span class="col-control">Low. Agents derived everything from the CSV. No pre-digested summaries to trust blindly.</span></td>
+  <td><span class="col-real">Contained. The harness's summary tables had errors (inverted booking buckets, MRR mismatch) but Tara caught them by computing fresh from CSV. The Cold Verifier caught the remaining handoff break.</span></td>
+</tr>
+</table>
 </div>
 
 <footer>
