@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro to AI Essentials — Start Your Own Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1B4D3E;
+  --cream: #FDF8F0;
+  --terracotta: #C75B39;
+  --sand: #F5EDE3;
+  --charcoal: #2D2D2D;
+  --amber: #FDF3E0;
+  --amber-border: #E8C885;
+  --white: #FFFFFF;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: clamp(16px, 2.5vw, 18px);
+  line-height: 1.6;
+  color: var(--charcoal);
+  background: var(--cream);
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+h1, h2, h3, h4 {
+  font-family: "Fraunces", Georgia, "Times New Roman", serif;
+  color: var(--green);
+  line-height: 1.25;
+}
+
+h1 { font-size: clamp(2rem, 6vw, 3.25rem); font-weight: 700; }
+h2 { font-size: clamp(1.5rem, 4vw, 2.25rem); font-weight: 600; }
+h3 { font-size: clamp(1.15rem, 2.5vw, 1.4rem); font-weight: 600; }
+
+p { margin-bottom: 1rem; max-width: 72ch; }
+p:last-child { margin-bottom: 0; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: absolute; top: -100%; left: 0.75rem;
+  background: var(--green); color: var(--white);
+  padding: 0.5rem 1rem; border-radius: 0 0 4px 4px;
+  z-index: 1000; font-weight: 600; text-decoration: none;
+}
+.skip-link:focus { top: 0; }
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-left: clamp(1rem, 5vw, 2rem);
+  padding-right: clamp(1rem, 5vw, 2rem);
+}
+
+.narrow { max-width: 72ch; margin-left: auto; margin-right: auto; }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(175deg, var(--cream) 0%, var(--sand) 100%);
+  padding: clamp(4rem, 12vw, 8rem) clamp(1rem, 5vw, 2rem);
+  text-align: center;
+  min-height: 90vh;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+}
+.hero__emoji { font-size: clamp(3rem, 10vw, 6rem); margin-bottom: 1rem; line-height: 1; }
+.hero__heading { margin-bottom: 1rem; }
+.hero__subtitle {
+  font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+  color: var(--charcoal);
+  max-width: 58ch;
+  margin: 0 auto 2rem;
+}
+.hero__cta {
+  display: inline-block;
+  background: var(--terracotta); color: var(--white);
+  padding: clamp(0.7rem, 2vw, 0.9rem) clamp(1.8rem, 5vw, 2.8rem);
+  border-radius: 6px; font-size: clamp(1rem, 2vw, 1.15rem);
+  font-weight: 700; text-decoration: none; cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
+  border: none;
+}
+.hero__cta:hover { background: #A84D30; transform: translateY(-1px); }
+.hero__cta:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+
+/* ── NAV ── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--cream); border-bottom: 1px solid var(--sand);
+  transform: translateY(-100%); opacity: 0; transition: transform 0.25s, opacity 0.25s;
+  pointer-events: none;
+}
+.nav--visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
+.nav__list {
+  display: flex; list-style: none; gap: 0;
+  overflow-x: auto; -ms-overflow-style: none; scrollbar-width: none;
+  padding: 0 clamp(0.5rem, 3vw, 2rem);
+}
+.nav__list::-webkit-scrollbar { display: none; }
+.nav__item { flex-shrink: 0; }
+.nav__link {
+  display: flex; align-items: center; min-height: 44px;
+  padding: 0.6rem clamp(0.6rem, 2vw, 1rem);
+  text-decoration: none; color: var(--charcoal);
+  font-size: clamp(0.8rem, 2vw, 0.92rem); font-weight: 500;
+  white-space: nowrap; border-bottom: 3px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.nav__link:hover { color: var(--green); }
+.nav__link--active {
+  color: var(--green); font-weight: 700;
+  border-bottom-color: var(--green);
+}
+.nav__link:focus-visible { outline: 2px solid var(--green); outline-offset: -2px; }
+
+/* ── SECTIONS ── */
+.section {
+  padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 2rem);
+}
+.section--tint { background: var(--sand); }
+.section__icon {
+  font-size: clamp(2.5rem, 6vw, 4rem); text-align: center; margin-bottom: 0.5rem;
+  display: block;
+}
+.section__heading { text-align: center; margin-bottom: clamp(1.5rem, 4vw, 2.5rem); }
+
+/* ── Section 1: What is AI? ── */
+.s1__intro { max-width: 62ch; margin: 0 auto; }
+.s1__pullquote {
+  background: var(--sand); border-left: 4px solid var(--terracotta);
+  border-radius: 0 8px 8px 0; padding: clamp(1rem, 3vw, 1.8rem) clamp(1.2rem, 3vw, 2rem);
+  margin: clamp(1.5rem, 3vw, 2.5rem) auto;
+  max-width: 64ch; font-style: italic;
+}
+.s1__pullquote p { margin-bottom: 0.5rem; }
+.s1__pullquote p:first-child { font-weight: 600; font-style: normal; color: var(--green); }
+
+/* ── Section 2: Why AI Matters ── */
+.card-grid {
+  display: grid; grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+@media (min-width: 768px) { .card-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .card-grid--four { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 768px) { .card-grid--three { grid-template-columns: repeat(3, 1fr); } }
+
+.benefit-card {
+  background: var(--white); border-radius: 10px;
+  padding: clamp(1.2rem, 3vw, 1.8rem);
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+.benefit-card__icon { font-size: clamp(2rem, 5vw, 2.8rem); margin-bottom: 0.75rem; display: block; }
+.benefit-card__title { font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--green); }
+.benefit-card__text { font-size: 0.92rem; }
+
+/* ── Section 3: Key AI Tools ── */
+.tool-card {
+  background: var(--white); border-radius: 10px;
+  padding: clamp(1.2rem, 3vw, 1.5rem);
+  border-left: 5px solid var(--green);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex; flex-direction: column; gap: 0.6rem;
+}
+.tool-card:hover, .tool-card:focus-within { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.08); }
+.tool-card__name { font-size: 1.1rem; font-weight: 700; color: var(--green); }
+.tool-card__desc { font-size: 0.9rem; flex-grow: 1; margin: 0; }
+.tool-card__meta { display: flex; flex-wrap: wrap; gap: 0.4rem; font-size: 0.78rem; }
+.tool-card__tag {
+  display: inline-block; padding: 0.15rem 0.55rem; border-radius: 20px;
+  font-weight: 600;
+}
+.tool-card__tag--good { background: #E0EDE6; color: var(--green); }
+.tool-card__tag--watch { background: #FEF0EA; color: var(--terracotta); }
+.tool-card__free {
+  font-size: 0.75rem; color: #6B6B6B; margin-top: auto; padding-top: 0.3rem;
+  border-top: 1px solid var(--sand);
+}
+
+/* ── Section 4: Practical Use Cases ── */
+.usecase-block { margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+.usecase-block:last-child { margin-bottom: 0; }
+.usecase-block__heading {
+  color: var(--green); margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+  padding-bottom: 0.5rem; border-bottom: 2px solid var(--sand);
+}
+.usecase-row {
+  display: grid; grid-template-columns: 1fr;
+  gap: 1rem; margin-bottom: clamp(1rem, 3vw, 1.5rem);
+  padding-bottom: clamp(0.8rem, 2vw, 1.2rem);
+  border-bottom: 1px dashed var(--sand);
+}
+.usecase-row:last-child { border-bottom: none; margin-bottom: 0; }
+.usecase-row__scenario { }
+.usecase-row__example {
+  background: var(--white); border-radius: 8px; padding: clamp(0.8rem, 2vw, 1.2rem);
+  font-size: 0.9rem;
+}
+.usecase-row__label {
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em;
+  font-weight: 700; color: var(--terracotta); margin-bottom: 0.3rem;
+}
+.usecase-row__text { margin-bottom: 0.3rem; }
+.usecase-row__text:last-child { margin-bottom: 0; }
+
+@media (min-width: 768px) {
+  .usecase-row { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .usecase-row__scenario { position: relative; }
+  .usecase-row__scenario::after {
+    content: "→"; position: absolute; right: -1.5rem; top: 0.5rem;
+    font-size: 1.5rem; color: var(--terracotta); line-height: 1;
+  }
+}
+
+/* ── Section 5: Limitations ── */
+.caution-card {
+  background: var(--amber); border: 1px solid var(--amber-border);
+  border-radius: 12px; padding: clamp(1.5rem, 4vw, 2.5rem);
+  max-width: 72ch; margin: 0 auto;
+}
+.caution-card__header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.2rem; }
+.caution-card__icon { font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1; }
+.caution-card__title { color: var(--green); margin: 0; }
+.caution-card__list {
+  list-style: none; padding: 0;
+}
+.caution-card__item {
+  padding: 0.55rem 0; border-bottom: 1px solid var(--amber-border);
+  font-size: 0.92rem;
+}
+.caution-card__item:last-child { border-bottom: none; }
+.caution-card__item strong { color: var(--green); }
+
+/* ── Section 6: How to Get Started ── */
+.steps {
+  max-width: 62ch; margin: 0 auto;
+}
+.step {
+  display: flex; gap: clamp(1rem, 3vw, 1.5rem);
+  margin-bottom: clamp(1.2rem, 3vw, 2rem);
+  position: relative;
+}
+.step:last-child { margin-bottom: 0; }
+.step__number {
+  flex-shrink: 0;
+  width: clamp(2.5rem, 5vw, 3rem); height: clamp(2.5rem, 5vw, 3rem);
+  border-radius: 50%; background: var(--terracotta); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  position: relative; z-index: 1;
+}
+.step:not(:last-child) .step__number::after {
+  content: ""; position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  width: 2px; height: calc(100% + 0.75rem);
+  background: var(--terracotta); opacity: 0.35;
+}
+.step__content { padding-top: 0.3rem; }
+.step__title { color: var(--green); font-size: 1.1rem; margin-bottom: 0.25rem; }
+.step__text { font-size: 0.92rem; margin-bottom: 0.25rem; }
+
+@media (max-width: 599px) {
+  .step:not(:last-child) .step__number::after { display: none; }
+}
+
+/* ── Section 7: Glossary ── */
+.glossary {
+  max-width: 66ch; margin: 0 auto;
+}
+.glossary__term {
+  border-bottom: 1px solid var(--sand);
+}
+.glossary__term:last-child { border-bottom: none; }
+.glossary__summary {
+  padding: clamp(0.7rem, 2vw, 0.9rem) 0.5rem;
+  cursor: pointer; font-weight: 700; color: var(--green);
+  outline: none; min-height: 44px; display: flex; align-items: center;
+  list-style: none;
+}
+.glossary__summary::-webkit-details-marker { display: none; }
+.glossary__summary::before {
+  content: "+"; display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; margin-right: 0.6rem;
+  background: var(--sand); border-radius: 4px;
+  font-weight: 700; color: var(--green); font-size: 1.1rem;
+  flex-shrink: 0; transition: background 0.15s;
+}
+details[open] .glossary__summary::before { content: "−"; background: var(--terracotta); color: var(--white); }
+.glossary__summary:hover::before { background: var(--green); color: var(--white); }
+.glossary__details:focus-visible .glossary__summary { outline: 2px solid var(--green); outline-offset: 2px; }
+.glossary__body {
+  padding: 0 0.5rem clamp(0.8rem, 2vw, 1rem) calc(24px + 1.1rem);
+  font-size: 0.92rem;
+}
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1rem, 5vw, 2rem);
+  background: var(--green); color: var(--white);
+}
+.footer__text {
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-family: "Fraunces", Georgia, serif; font-weight: 400;
+  color: inherit; margin: 0; max-width: none;
+}
+
+/* ── PRINT ── */
+@media print {
+  .nav, .hero__cta, .skip-link { display: none !important; }
+  * { background: #fff !important; color: #000 !important; box-shadow: none !important; }
+  details[open] summary ~ * { display: block !important; }
+  details:not([open]) > :not(summary) { display: block !important; }
+  details summary::before { content: "" !important; background: none !important; }
+  .section { padding: 1.5rem 0; page-break-inside: avoid; }
+  .tool-card, .benefit-card, .caution-card { border: 1px solid #ccc !important; }
+  .tool-card { border-left: 3px solid #000 !important; }
+  body { font-size: 12pt; line-height: 1.5; }
+}
+</style>
+</head>
+<body>
+
+<a href="#s1" class="skip-link">Skip to main content</a>
+
+<header class="hero" id="hero">
+  <span class="hero__emoji" aria-hidden="true">🤖</span>
+  <h1 class="hero__heading">AI for Your Business — Made Simple</h1>
+  <p class="hero__subtitle">
+    A handy, plain-English guide to what artificial intelligence can actually do for you and your small business. No jargon, no hype — just practical help.
+  </p>
+  <a href="#s1" class="hero__cta">Start learning</a>
+</header>
+
+<nav class="nav" id="nav" aria-label="Page sections">
+  <ul class="nav__list">
+    <li class="nav__item"><a href="#s1" class="nav__link">What is AI?</a></li>
+    <li class="nav__item"><a href="#s2" class="nav__link">Why AI Matters</a></li>
+    <li class="nav__item"><a href="#s3" class="nav__link">Key Tools</a></li>
+    <li class="nav__item"><a href="#s4" class="nav__link">Use Cases</a></li>
+    <li class="nav__item"><a href="#s5" class="nav__link">Limitations</a></li>
+    <li class="nav__item"><a href="#s6" class="nav__link">Get Started</a></li>
+    <li class="nav__item"><a href="#s7" class="nav__link">Glossary</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ═══ SECTION 1: WHAT IS AI? ═══ -->
+  <section class="section" id="s1" aria-labelledby="s1-heading">
+    <span class="section__icon" aria-hidden="true">🧠</span>
+    <h2 class="section__heading" id="s1-heading">What is AI?</h2>
+    <div class="s1__intro">
+      <p>
+        AI (artificial intelligence) is software that can do things we used to think only humans could do — like writing, drawing, answering questions, or spotting patterns in a spreadsheet. You type or speak to it in plain English, and it responds like a helpful assistant.
+      </p>
+      <p>
+        Think of AI like a part-time staff member who never sleeps, reads everything you give them instantly, and can write your social media posts, answer customer emails, or suggest a new weekly special based on what sold well last month. It makes mistakes, just like a new hire would — so you still check its work.
+      </p>
+    </div>
+    <blockquote class="s1__pullquote">
+      <p>AI (artificial intelligence):</p>
+      <p>Software that can do things we used to think only humans could do — like writing, drawing, answering questions, or spotting patterns in a spreadsheet. You type or speak to it in plain English, and it responds like a helpful assistant.</p>
+    </blockquote>
+  </section>
+
+  <!-- ═══ SECTION 2: WHY AI MATTERS ═══ -->
+  <section class="section section--tint" id="s2" aria-labelledby="s2-heading">
+    <span class="section__icon" aria-hidden="true">💡</span>
+    <h2 class="section__heading" id="s2-heading">Why AI Matters for Your Small Business</h2>
+
+    <div class="card-grid card-grid--four">
+      <div class="benefit-card">
+        <span class="benefit-card__icon" aria-hidden="true">✍️</span>
+        <h3 class="benefit-card__title">Write your content faster</h3>
+        <p class="benefit-card__text">
+          AI can draft Instagram captions, Facebook posts, email newsletters, website text, and product descriptions in seconds. A dog walker in Ranelagh can produce a week of social posts in 15 minutes instead of two hours.
+        </p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-card__icon" aria-hidden="true">💬</span>
+        <h3 class="benefit-card__title">Answer routine questions 24/7</h3>
+        <p class="benefit-card__text">
+          AI chatbots can handle "What are your opening hours?" or "Do you deliver to Dublin 8?" while you're asleep or serving customers. Handy out for hospitality and retail where people message outside business hours.
+        </p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-card__icon" aria-hidden="true">📊</span>
+        <h3 class="benefit-card__title">Make sense of your own data</h3>
+        <p class="benefit-card__text">
+          Paste a spreadsheet of last month's sales and ask: "Which products sold best on Saturdays?" No accountant or Excel wizard needed — just a bit of plain-English asking.
+        </p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-card__icon" aria-hidden="true">🧭</span>
+        <h3 class="benefit-card__title">Brainstorm and problem-solve</h3>
+        <p class="benefit-card__text">
+          Stuck for a name for your new pastry? Need a pricing idea for a spring promotion? AI works as a fast, free thinking partner. (Always double-check regulatory and legal answers on official Irish sites.)
+        </p>
+      </div>
+    </div>
+
+    <div class="narrow">
+      <p>
+        On this course you're building a business plan — here's a bit of help with the bits and pieces that come after. AI won't build your business for you, but it can take a load of the busy-work off your plate so you can focus on serving your community, chatting to customers, and making the big decisions yourself.
+      </p>
+      <p>
+        The person down the road running a high-street shop already has enough on — ordering stock, managing staff rotas, doing the books, and keeping the social media ticking over. That's where AI earns its keep: doing the first-draft work so you can spend more time on the parts of the business only <em>you</em> can do.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 3: KEY AI TOOLS ═══ -->
+  <section class="section" id="s3" aria-labelledby="s3-heading">
+    <span class="section__icon" aria-hidden="true">🛠️</span>
+    <h2 class="section__heading" id="s3-heading">Key AI Tools Worth Knowing</h2>
+    <p class="narrow" style="text-align:center;margin-bottom:clamp(1.5rem,4vw,2.5rem);">
+      All of these have a free tier. Start there — there's no bother. You can always upgrade later if you find one that's earning its keep.
+    </p>
+
+    <div class="card-grid card-grid--four">
+      <!-- ChatGPT -->
+      <div class="tool-card" tabindex="0">
+        <div class="tool-card__name">ChatGPT</div>
+        <p class="tool-card__desc">Most widely used AI assistant. Great for everyday writing, brainstorming, and data questions.</p>
+        <div class="tool-card__meta">
+          <span class="tool-card__tag tool-card__tag--good">Good for: Daily tasks &amp; writing</span>
+          <span class="tool-card__tag tool-card__tag--watch">Watch out: Can hallucinate confidently</span>
+        </div>
+        <div class="tool-card__free">chatgpt.com — Free tier: Yes</div>
+      </div>
+
+      <!-- Claude -->
+      <div class="tool-card" tabindex="0">
+        <div class="tool-card__name">Claude</div>
+        <p class="tool-card__desc">Known for longer, more thoughtful responses. Excellent at long-form content and document review.</p>
+        <div class="tool-card__meta">
+          <span class="tool-card__tag tool-card__tag--good">Good for: Long-form writing &amp; analysis</span>
+          <span class="tool-card__tag tool-card__tag--watch">Watch out: Free tier has usage limits</span>
+        </div>
+        <div class="tool-card__free">claude.ai — Free tier: Yes</div>
+      </div>
+
+      <!-- Microsoft Copilot -->
+      <div class="tool-card" tabindex="0">
+        <div class="tool-card__name">Microsoft Copilot</div>
+        <p class="tool-card__desc">Built into Edge, Windows, and Bing. Quick web searches with AI summaries and free image generation.</p>
+        <div class="tool-card__meta">
+          <span class="tool-card__tag tool-card__tag--good">Good for: Quick research &amp; image creation</span>
+          <span class="tool-card__tag tool-card__tag--watch">Watch out: Needs a Microsoft account</span>
+        </div>
+        <div class="tool-card__free">copilot.microsoft.com — Free tier: Yes</div>
+      </div>
+
+      <!-- Google Gemini -->
+      <div class="tool-card" tabindex="0">
+        <div class="tool-card__name">Google Gemini</div>
+        <p class="tool-card__desc">Google's AI assistant. Best for research, YouTube summaries, and Google Docs/Drive integration.</p>
+        <div class="tool-card__meta">
+          <span class="tool-card__tag tool-card__tag--good">Good for: Research &amp; Google ecosystem</span>
+          <span class="tool-card__tag tool-card__tag--watch">Watch out: Some features need Google One</span>
+        </div>
+        <div class="tool-card__free">gemini.google.com — Free tier: Yes</div>
+      </div>
+
+      <!-- DALL-E -->
+      <div class="tool-card" tabindex="0">
+        <div class="tool-card__name">DALL·E</div>
+        <p class="tool-card__desc">AI that generates images from text. Perfect for social media images, menu illustrations, and logo concepts.</p>
+        <div class="tool-card__meta">
+          <span class="tool-card__tag tool-card__tag--good">Good for: Visual content &amp; marketing</span>
+          <span class="tool-card__tag tool-card__tag--watch">Watch out: Limited free credits via Copilot</span>
+        </div>
+        <div class="tool-card__free">Via ChatGPT or Copilot — Limited free</div>
+      </div>
+
+      <!-- Canva AI -->
+      <div class="tool-card" tabindex="0">
+        <div class="tool-card__name">Canva AI</div>
+        <p class="tool-card__desc">Canva's built-in AI features: background remover, text-to-image, AI writing assistant.</p>
+        <div class="tool-card__meta">
+          <span class="tool-card__tag tool-card__tag--good">Good for: Quick design &amp; social graphics</span>
+          <span class="tool-card__tag tool-card__tag--watch">Watch out: Advanced AI tools need Canva Pro</span>
+        </div>
+        <div class="tool-card__free">canva.com — Free tier: Yes (includes many AI tools)</div>
+      </div>
+
+      <!-- Perplexity AI -->
+      <div class="tool-card" tabindex="0">
+        <div class="tool-card__name">Perplexity AI</div>
+        <p class="tool-card__desc">AI-powered search engine with linked sources. Ideal for competitor research and regulation questions.</p>
+        <div class="tool-card__meta">
+          <span class="tool-card__tag tool-card__tag--good">Good for: Research with cited sources</span>
+          <span class="tool-card__tag tool-card__tag--watch">Watch out: Limited Pro searches daily</span>
+        </div>
+        <div class="tool-card__free">perplexity.ai — Free tier: Yes</div>
+      </div>
+
+      <!-- Otter.ai -->
+      <div class="tool-card" tabindex="0">
+        <div class="tool-card__name">Otter.ai</div>
+        <p class="tool-card__desc">AI that transcribes conversations and voice notes. Turn rambling ideas into written plans.</p>
+        <div class="tool-card__meta">
+          <span class="tool-card__tag tool-card__tag--good">Good for: Voice notes &amp; meetings</span>
+          <span class="tool-card__tag tool-card__tag--watch">Watch out: 300 free minutes per month</span>
+        </div>
+        <div class="tool-card__free">otter.ai — Free tier: Yes (300 monthly minutes)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 4: PRACTICAL USE CASES ═══ -->
+  <section class="section section--tint" id="s4" aria-labelledby="s4-heading">
+    <span class="section__icon" aria-hidden="true">📋</span>
+    <h2 class="section__heading" id="s4-heading">Practical Use Cases</h2>
+    <p class="narrow" style="text-align:center;margin-bottom:clamp(2rem,4vw,3rem);">
+      Here's how real small businesses around Dublin are putting AI to work — organised by the bits of running a business that actually matter.
+    </p>
+
+    <!-- Marketing -->
+    <div class="usecase-block">
+      <h3 class="usecase-block__heading">Marketing</h3>
+      <div class="usecase-row">
+        <div class="usecase-row__scenario">
+          <div class="usecase-row__label">Scenario</div>
+          <p class="usecase-row__text">A café owner needs fresh Instagram captions for a new drink launch.</p>
+        </div>
+        <div class="usecase-row__example">
+          <div class="usecase-row__label">What you'd do</div>
+          <p class="usecase-row__text">Ask ChatGPT: <em>"Write 5 Instagram captions for a Dublin café launching a new oat-milk flat white. Keep it warm and friendly, mention it's Irish oat milk, include emojis, and end with a call to visit."</em></p>
+        </div>
+      </div>
+      <div class="usecase-row">
+        <div class="usecase-row__scenario">
+          <div class="usecase-row__label">Scenario</div>
+          <p class="usecase-row__text">A freelance designer needs a case study and cover image for their portfolio.</p>
+        </div>
+        <div class="usecase-row__example">
+          <div class="usecase-row__label">What you'd do</div>
+          <p class="usecase-row__text">Use Canva AI's Magic Write to draft the case study. Generate a hero image with DALL·E for the cover. Whole thing: about 20 minutes.</p>
+        </div>
+      </div>
+      <div class="usecase-row">
+        <div class="usecase-row__scenario">
+          <div class="usecase-row__label">Scenario</div>
+          <p class="usecase-row__text">A retail shop wants to tie a window display to upcoming local events.</p>
+        </div>
+        <div class="usecase-row__example">
+          <div class="usecase-row__label">What you'd do</div>
+          <p class="usecase-row__text">Ask Perplexity: <em>"What events are happening in Dublin city centre next month that I could tie a shop window display to?"</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customer Service -->
+    <div class="usecase-block">
+      <h3 class="usecase-block__heading">Customer Service</h3>
+      <div class="usecase-row">
+        <div class="usecase-row__scenario">
+          <div class="usecase-row__label">Scenario</div>
+          <p class="usecase-row__text">A dog walker needs an FAQ page for their website but doesn't know where to start.</p>
+        </div>
+        <div class="usecase-row__example">
+          <div class="usecase-row__label">What you'd do</div>
+          <p class="usecase-row__text">Ask ChatGPT: <em>"Write 10 FAQ questions and answers for a Dublin dog-walking business. Cover pricing, areas served, bad weather, insurance, how keys are handled."</em></p>
+        </div>
+      </div>
+      <div class="usecase-row">
+        <div class="usecase-row__scenario">
+          <div class="usecase-row__label">Scenario</div>
+          <p class="usecase-row__text">A café got a negative Google review and needs to reply thoughtfully.</p>
+        </div>
+        <div class="usecase-row__example">
+          <div class="usecase-row__label">What you'd do</div>
+          <p class="usecase-row__text">Ask ChatGPT: <em>"A customer left a 2-star review saying our soup was cold and service was slow last Saturday. Write a short, genuine reply that apologises, explains it was unusually busy due to a match at Croke Park, and invites them back for a free coffee."</em></p>
+        </div>
+      </div>
+      <div class="usecase-row">
+        <div class="usecase-row__scenario">
+          <div class="usecase-row__label">Scenario</div>
+          <p class="usecase-row__text">A plumber wants to turn a common repair tip into a helpful blog post.</p>
+        </div>
+        <div class="usecase-row__example">
+          <div class="usecase-row__label">What you'd do</div>
+          <p class="usecase-row__text">Record a voice note in Otter.ai explaining "why your radiator is cold at the top." Get the transcript, tidy it up with ChatGPT, and post it as a blog post. There's no bother.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Operations -->
+    <div class="usecase-block">
+      <h3 class="usecase-block__heading">Operations</h3>
+      <div class="usecase-row">
+        <div class="usecase-row__scenario">
+          <div class="usecase-row__label">Scenario</div>
+          <p class="usecase-row__text">A retail shop wants to know which products are making money and which aren't.</p>
+        </div>
+        <div class="usecase-row__example">
+          <div class="usecase-row__label">What you'd do</div>
+          <p class="usecase-row__text">Paste your inventory spreadsheet into ChatGPT: <em>"Which 5 products have the highest profit margin? Which 3 are selling slowest?"</em></p>
+        </div>
+      </div>
+      <div class="usecase-row">
+        <div class="usecase-row__scenario">
+          <div class="usecase-row__label">Scenario</div>
+          <p class="usecase-row__text">A café owner needs a weekly staff rota.</p>
+        </div>
+        <div class="usecase-row__example">
+          <div class="usecase-row__label">What you'd do</div>
+          <p class="usecase-row__text">Ask AI: <em>"Create a weekly staff rota table for a café open Mon–Sat 7am–4pm with 2 baristas and 1 floor person per shift. Include a column for total hours."</em></p>
+        </div>
+      </div>
+      <div class="usecase-row">
+        <div class="usecase-row__scenario">
+          <div class="usecase-row__label">Scenario</div>
+          <p class="usecase-row__text">A service business wants a consistent morning opening routine.</p>
+        </div>
+        <div class="usecase-row__example">
+          <div class="usecase-row__label">What you'd do</div>
+          <p class="usecase-row__text">Ask ChatGPT: <em>"Write a checklist for opening a small retail shop in Dublin each morning. Include till setup, cleaning, stock check, and a quick team huddle."</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Finance / Admin -->
+    <div class="usecase-block">
+      <h3 class="usecase-block__heading">Finance &amp; Admin</h3>
+      <div class="usecase-row">
+        <div class="usecase-row__scenario">
+          <div class="usecase-row__label">Scenario</div>
+          <p class="usecase-row__text">A sole trader wants to know what home-office expenses they can claim.</p>
+        </div>
+        <div class="usecase-row__example">
+          <div class="usecase-row__label">What you'd do</div>
+          <p class="usecase-row__text">Ask ChatGPT: <em>"I'm a sole trader in Ireland. What expenses can I claim against tax for a home office? List them in plain English."</em> Then confirm the details with your accountant.</p>
+        </div>
+      </div>
+      <div class="usecase-row">
+        <div class="usecase-row__scenario">
+          <div class="usecase-row__label">Scenario</div>
+          <p class="usecase-row__text">A freelance designer wants to make their invoice emails sound more professional.</p>
+        </div>
+        <div class="usecase-row__example">
+          <div class="usecase-row__label">What you'd do</div>
+          <p class="usecase-row__text">Paste your draft into ChatGPT: <em>"Make this sound more professional but still friendly. Add a clear payment due date and bank details placeholder."</em></p>
+        </div>
+      </div>
+      <div class="usecase-row">
+        <div class="usecase-row__scenario">
+          <div class="usecase-row__label">Scenario</div>
+          <p class="usecase-row__text">A café owner needs a simple cash-flow tracker — especially heading into Christmas trade rush.</p>
+        </div>
+        <div class="usecase-row__example">
+          <div class="usecase-row__label">What you'd do</div>
+          <p class="usecase-row__text">Ask AI: <em>"Write a simple weekly cash-flow tracker template for a small Dublin café. Columns for: day, till take, card take, total revenue, stock delivered cost, wages, rent, miscellaneous, and net."</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 5: LIMITATIONS AND CAVEATS ═══ -->
+  <section class="section" id="s5" aria-labelledby="s5-heading">
+    <span class="section__icon" aria-hidden="true">⚠️</span>
+    <h2 class="section__heading" id="s5-heading">Limitations and Caveats</h2>
+    <div class="caution-card">
+      <div class="caution-card__header">
+        <span class="caution-card__icon" aria-hidden="true">🟠</span>
+        <h3 class="caution-card__title">Worth knowing before you dive in</h3>
+      </div>
+      <ul class="caution-card__list">
+        <li class="caution-card__item">
+          <strong>1. AI makes things up (hallucination).</strong> AI sometimes invents facts, names, dates, and numbers that sound correct but are completely false. Treat everything as a first draft or suggestion — never as verified fact. Always double-check anything that matters legally, financially, or for customer safety.
+        </li>
+        <li class="caution-card__item">
+          <strong>2. Don't paste confidential information.</strong> Anything you type into a free AI tool may be used to train the provider's models. Never paste client names, employee data, bank details, or confidential financials. If you wouldn't post it on a public noticeboard on Grafton Street, don't put it into a free AI tool.
+        </li>
+        <li class="caution-card__item">
+          <strong>3. AI is a tool, not a replacement for human judgment.</strong> AI can draft a contract clause but it cannot be your solicitor. It can suggest a tax deduction but it is not your accountant. Use AI to save time — never to replace your own thinking on important decisions.
+        </li>
+        <li class="caution-card__item">
+          <strong>4. Cost considerations.</strong> Most tools have generous free tiers. Paid plans typically €18–€25/month. Start free. Only pay when you hit a real limitation. By then you'll know exactly what you need.
+        </li>
+        <li class="caution-card__item">
+          <strong>5. Irish-specific context gaps.</strong> Most AI tools are trained primarily on US and UK data. They may not know Irish-specific regulations in detail. Use AI for direction and ideas, but confirm details on official Irish government websites (<em>gov.ie</em>, <em>revenue.ie</em>, <em>citizensinformation.ie</em>).
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 6: HOW TO GET STARTED ═══ -->
+  <section class="section section--tint" id="s6" aria-labelledby="s6-heading">
+    <span class="section__icon" aria-hidden="true">🚀</span>
+    <h2 class="section__heading" id="s6-heading">How to Get Started</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step__number" aria-hidden="true">1</div>
+        <div class="step__content">
+          <h3 class="step__title">Create a free account</h3>
+          <p class="step__text">Go to <strong>chatgpt.com</strong>. Click "Sign up." Use your email or Google account. No credit card needed. That's you in — there's no bother.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__number" aria-hidden="true">2</div>
+        <div class="step__content">
+          <h3 class="step__title">Ask your first question</h3>
+          <p class="step__text">Type something real to your business. Example: <em>"Write a short, friendly welcome message for the homepage of a Dublin dog-grooming business called Happy Paws."</em></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__number" aria-hidden="true">3</div>
+        <div class="step__content">
+          <h3 class="step__title">Refine your question (this is called "prompting")</h3>
+          <p class="step__text">Ask a follow-up: <em>"Make it shorter."</em> Or <em>"Make it more casual, like I'm talking to a neighbour."</em> Or <em>"Add a mention that we serve Clontarf, Raheny, and Killester."</em> This skill — asking, refining, asking again — is 80% of using AI well.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__number" aria-hidden="true">4</div>
+        <div class="step__content">
+          <h3 class="step__title">Ask something practical for your business this week</h3>
+          <p class="step__text">Pick one task from the Use Cases section above — a social media caption, an FAQ page, a customer email reply, a rota template. Ask AI to draft it. You'll have a first draft in under 2 minutes. That's grand, isn't it?</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__number" aria-hidden="true">5</div>
+        <div class="step__content">
+          <h3 class="step__title">Try one image tool</h3>
+          <p class="step__text">Go to <strong>copilot.microsoft.com</strong> (free). Type: <em>"Create an image of a cosy Dublin café interior with exposed brick, warm lighting, and customers reading newspapers."</em> You now have a free image for social media or a flyer — handy out for the Christmas trade rush.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 7: GLOSSARY ═══ -->
+  <section class="section" id="s7" aria-labelledby="s7-heading">
+    <span class="section__icon" aria-hidden="true">📖</span>
+    <h2 class="section__heading" id="s7-heading">Glossary</h2>
+    <div class="glossary">
+      <details class="glossary__term glossary__details">
+        <summary class="glossary__summary">AI (Artificial Intelligence)</summary>
+        <div class="glossary__body">
+          <p>Software that can perform tasks that normally need human thinking, such as writing, drawing, or answering questions.</p>
+        </div>
+      </details>
+      <details class="glossary__term glossary__details">
+        <summary class="glossary__summary">Prompt</summary>
+        <div class="glossary__body">
+          <p>The instruction or question you type into an AI tool — essentially, "what you ask it to do."</p>
+        </div>
+      </details>
+      <details class="glossary__term glossary__details">
+        <summary class="glossary__summary">LLM (Large Language Model)</summary>
+        <div class="glossary__body">
+          <p>The engine under the hood of tools like ChatGPT and Claude; a giant pattern-matching system trained on a huge amount of text from the internet.</p>
+        </div>
+      </details>
+      <details class="glossary__term glossary__details">
+        <summary class="glossary__summary">Generative AI</summary>
+        <div class="glossary__body">
+          <p>AI that creates new content (text, images, audio, code) rather than just analysing existing data. ChatGPT and DALL·E are generative AI.</p>
+        </div>
+      </details>
+      <details class="glossary__term glossary__details">
+        <summary class="glossary__summary">Hallucination</summary>
+        <div class="glossary__body">
+          <p>When AI confidently produces information that sounds correct but is completely made up — like a very convincing liar.</p>
+        </div>
+      </details>
+      <details class="glossary__term glossary__details">
+        <summary class="glossary__summary">Training Data</summary>
+        <div class="glossary__body">
+          <p>The massive collection of text, images, and other information the AI was "taught" on before you ever used it. Think of it as the AI's textbooks.</p>
+        </div>
+      </details>
+      <details class="glossary__term glossary__details">
+        <summary class="glossary__summary">Token</summary>
+        <div class="glossary__body">
+          <p>A chunk of text — roughly three-quarters of a word — that AI processes. Most free tools let you process thousands of tokens per conversation.</p>
+        </div>
+      </details>
+      <details class="glossary__term glossary__details">
+        <summary class="glossary__summary">API (Application Programming Interface)</summary>
+        <div class="glossary__body">
+          <p>A way for one piece of software to talk to another behind the scenes. You won't use this directly as a beginner, but you may see it mentioned.</p>
+        </div>
+      </details>
+      <details class="glossary__term glossary__details">
+        <summary class="glossary__summary">Fine-tuning</summary>
+        <div class="glossary__body">
+          <p>Training an existing AI model on a specific, smaller set of data (e.g. your product catalogue) so it becomes better at your particular task. Usually not needed for small businesses.</p>
+        </div>
+      </details>
+      <details class="glossary__term glossary__details">
+        <summary class="glossary__summary">Chatbot</summary>
+        <div class="glossary__body">
+          <p>A piece of software you can have a typed conversation with. ChatGPT is a chatbot. The AI customer-service tools on websites are also chatbots.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__text">That's you sorted. Now go give it a lash.</p>
+</footer>
+
+<script>
+(function () {
+  var nav = document.getElementById('nav');
+  var hero = document.getElementById('hero');
+  var links = document.querySelectorAll('.nav__link');
+  var sections = [];
+  links.forEach(function (link) {
+    var id = link.getAttribute('href');
+    if (id) {
+      var el = document.querySelector(id);
+      if (el) sections.push(el);
+    }
+  });
+
+  var observerOptions = { rootMargin: '-40% 0px -60% 0px', threshold: 0 };
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var id = '#' + entry.target.id;
+        links.forEach(function (link) {
+          var isActive = link.getAttribute('href') === id;
+          link.classList.toggle('nav__link--active', isActive);
+        });
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(function (s) { observer.observe(s); });
+
+  var navObserver = new IntersectionObserver(function (entries) {
+    var heroEntry = entries[0];
+    nav.classList.toggle('nav--visible', !heroEntry || !heroEntry.isIntersecting || heroEntry.intersectionRatio < 0.1);
+  }, { threshold: [0, 0.1] });
+
+  navObserver.observe(hero);
+})();
+</script>
+
+</body>
+</html>
