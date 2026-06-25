@@ -160,6 +160,33 @@ p:last-child { margin-bottom: 0; }
 .s1__pullquote p { margin-bottom: 0.5rem; }
 .s1__pullquote p:first-child { font-weight: 600; font-style: normal; color: var(--green); }
 
+.s1__agents {
+  max-width: 72ch; margin: clamp(2rem, 4vw, 3rem) auto 0;
+  background: var(--white); border: 1px solid var(--sand);
+  border-radius: 12px; padding: clamp(1.5rem, 3vw, 2.2rem);
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.s1__agents-heading {
+  display: flex; align-items: center; gap: 0.6rem;
+  color: var(--green); margin-bottom: 1rem;
+}
+.s1__agents-heading .emoji { font-size: 1.6rem; }
+.s1__agents-cards {
+  display: grid; grid-template-columns: 1fr; gap: 1rem;
+  margin: 1.2rem 0;
+}
+@media (min-width: 768px) { .s1__agents-cards { grid-template-columns: repeat(3, 1fr); } }
+.s1__agents-card {
+  background: var(--cream); border-radius: 8px;
+  padding: 1rem; text-align: center;
+}
+.s1__agents-card__title { font-weight: 700; color: var(--green); margin-bottom: 0.35rem; font-size: 0.95rem; }
+.s1__agents-card__text { font-size: 0.88rem; }
+.s1__agents-note {
+  font-size: 0.85rem; margin-top: 1rem; padding-top: 0.8rem;
+  border-top: 1px solid var(--sand); color: #5c5c5c;
+}
+
 /* ── Section 2: Why AI Matters ── */
 .card-grid {
   display: grid; grid-template-columns: 1fr;
@@ -366,6 +393,7 @@ details[open] .glossary__summary::before { content: "−"; background: var(--ter
     <li class="nav__item"><a href="#s4" class="nav__link">Use Cases</a></li>
     <li class="nav__item"><a href="#s5" class="nav__link">Limitations</a></li>
     <li class="nav__item"><a href="#s6" class="nav__link">Get Started</a></li>
+    <li class="nav__item"><a href="#s8" class="nav__link">Local Supports</a></li>
     <li class="nav__item"><a href="#s7" class="nav__link">Glossary</a></li>
   </ul>
 </nav>
@@ -388,6 +416,33 @@ details[open] .glossary__summary::before { content: "−"; background: var(--ter
       <p>AI (artificial intelligence):</p>
       <p>Software that can do things we used to think only humans could do — like writing, drawing, answering questions, or spotting patterns in a spreadsheet. You type or speak to it in plain English, and it responds like a helpful assistant.</p>
     </blockquote>
+
+    <div class="s1__agents">
+      <h3 class="s1__agents-heading"><span class="emoji" aria-hidden="true">🤝</span> What About AI Agents?</h3>
+      <p>
+        You might have heard the term <strong>"AI agent"</strong> — it's worth knowing what it means because it comes up a lot. A regular AI (like ChatGPT) is a <em>chat</em> — you ask, it answers, you ask again. An <strong>AI agent</strong> is different: you give it a goal, and it works through a series of steps on its own to get the job done. It's the difference between asking someone for directions and handing them the car keys.
+      </p>
+      <div class="s1__agents-cards">
+        <div class="s1__agents-card">
+          <div class="s1__agents-card__title">Basic AI Chat</div>
+          <div class="s1__agents-card__text">Ask a question → get an answer. You ask again → it responds again. You drive the conversation.</div>
+        </div>
+        <div class="s1__agents-card">
+          <div class="s1__agents-card__title">AI Agent</div>
+          <div class="s1__agents-card__text">Give it a goal → it plans the steps → it takes actions (browses, fills forms, sends emails) → it comes back to you with the result.</div>
+        </div>
+        <div class="s1__agents-card">
+          <div class="s1__agents-card__title">Real Example</div>
+          <div class="s1__agents-card__text">"Research the best wholesalers for organic flour in Dublin, compare their prices, and draft an enquiry email to the top three." The agent researches, compares, and drafts — while you do something else.</div>
+        </div>
+      </div>
+      <p>
+        Right now, agent features are still emerging. ChatGPT's "Tasks" can schedule reminders and run prompts for you. Claude can use tools when set up via an API (a bit more technical). For most small business owners, the key thing is: <strong>know agents exist, understand the difference from a simple chat, and keep an eye on them</strong> — they'll likely become a bigger part of these tools over the next year or two.
+      </p>
+      <p class="s1__agents-note">
+        Bottom line: a chatbot is a conversation. An agent is a worker. You're still the boss — the agent just gets on with the job.
+      </p>
+    </div>
   </section>
 
   <!-- ═══ SECTION 2: WHY AI MATTERS ═══ -->
@@ -756,6 +811,68 @@ details[open] .glossary__summary::before { content: "−"; background: var(--ter
     </div>
   </section>
 
+  <!-- ═══ SECTION 8: LOCAL BUSINESS SUPPORTS ═══ -->
+  <section class="section" id="s8" aria-labelledby="s8-heading">
+    <span class="section__icon" aria-hidden="true">🏛️</span>
+    <h2 class="section__heading" id="s8-heading">AI for Navigating Business Supports in South Dublin</h2>
+    <div class="narrow" style="margin-bottom:clamp(1.5rem,3vw,2rem);">
+      <p>
+        One of the trickiest bits of starting a business is figuring out what support is out there — grants, mentoring, training, tax guidance, legal registration. There's plenty of help available in South Dublin, but finding it and understanding what applies to <em>you</em> takes time. AI can speed up that research enormously.
+      </p>
+    </div>
+
+    <div class="card-grid card-grid--three" style="margin-bottom:clamp(1.5rem,3vw,2.5rem);">
+      <div class="benefit-card">
+        <span class="benefit-card__icon" aria-hidden="true">🔍</span>
+        <h3 class="benefit-card__title">Find grants and funding</h3>
+        <p class="benefit-card__text">
+          Ask AI: "What grants are available for a new café in South Dublin in 2025? Include Local Enterprise Office, Enterprise Ireland, and council-level supports." AI will give you a starting list — then verify on the LEO site.
+        </p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-card__icon" aria-hidden="true">📝</span>
+        <h3 class="benefit-card__title">Understand the registration process</h3>
+        <p class="benefit-card__text">
+          Ask AI: "Walk me through registering as a sole trader in Ireland step by step. What forms do I need? What deadlines apply?" Use the answer as your checklist, and confirm on <em>revenue.ie</em>.
+        </p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-card__icon" aria-hidden="true">📋</span>
+        <h3 class="benefit-card__title">Translate official language</h3>
+        <p class="benefit-card__text">
+          Paste a chunk of text from a government website and ask: "Can you explain this in plain English?" AI cuts through the jargon so you actually understand what's required.
+        </p>
+      </div>
+    </div>
+
+    <div class="caution-card">
+      <div class="caution-card__header">
+        <span class="caution-card__icon" aria-hidden="true">📌</span>
+        <h3 class="caution-card__title">Key organisations to know (and verify with)</h3>
+      </div>
+      <ul class="caution-card__list">
+        <li class="caution-card__item">
+          <strong>Local Enterprise Office South Dublin</strong> — Your first port of call. Free mentoring, start-your-own-business courses, feasibility grants, and the Trading Online Voucher. Based in Tallaght. Website: <em>localenterprise.ie/SouthDublin</em>
+        </li>
+        <li class="caution-card__item">
+          <strong>Enterprise Ireland</strong> — Supports for businesses with export potential. If you're planning to sell beyond Ireland (even online), they're worth a look. Website: <em>enterprise-ireland.com</em>
+        </li>
+        <li class="caution-card__item">
+          <strong>Revenue.ie</strong> — Tax registration, VAT, and everything Revenue-related. AI can summarise guidance but never treat its answers as formal tax advice. Always confirm on the official site.
+        </li>
+        <li class="caution-card__item">
+          <strong>Companies Registration Office (CRO)</strong> — If you're forming a limited company rather than trading as a sole trader. Website: <em>cro.ie</em>
+        </li>
+        <li class="caution-card__item">
+          <strong>South Dublin County Council</strong> — Business rates, planning permission, street trading licences, and local economic development initiatives. Their website and customer service team are the definitive source.
+        </li>
+      </ul>
+      <p style="margin-top: clamp(0.8rem, 2vw, 1.2rem); font-size: 0.9rem; padding-top: 0.6rem; border-top: 1px solid var(--amber-border);">
+        <strong>A handy prompt to get you started:</strong> <em>"I'm starting a [type of business] in South Dublin. What supports, grants, and training are available to me? Include Local Enterprise Office, Enterprise Ireland, and council-level programmes. Tell me what I can apply for, what the eligibility criteria are, and where to find the official forms."</em>
+      </p>
+    </div>
+  </section>
+
   <!-- ═══ SECTION 7: GLOSSARY ═══ -->
   <section class="section" id="s7" aria-labelledby="s7-heading">
     <span class="section__icon" aria-hidden="true">📖</span>
@@ -771,6 +888,12 @@ details[open] .glossary__summary::before { content: "−"; background: var(--ter
         <summary class="glossary__summary">Prompt</summary>
         <div class="glossary__body">
           <p>The instruction or question you type into an AI tool — essentially, "what you ask it to do."</p>
+        </div>
+      </details>
+      <details class="glossary__term glossary__details">
+        <summary class="glossary__summary">Agent (AI Agent)</summary>
+        <div class="glossary__body">
+          <p>An AI that can take actions and complete multi-step tasks on its own — not just answer questions. Imagine giving it a goal instead of a single question, and having it work through the steps while you get on with other things.</p>
         </div>
       </details>
       <details class="glossary__term glossary__details">
